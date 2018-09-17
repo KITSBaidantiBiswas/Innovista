@@ -3,7 +3,7 @@ package naacTool;
 import java.awt.AWTException;
 import java.awt.Robot;
 import java.awt.Toolkit;
-import java.awt.datatransfer.Clipboard;
+
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
@@ -12,20 +12,16 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.security.Key;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Random;
-import java.util.concurrent.TimeUnit;
+import java.util.HashMap;
+import java.util.Map;
 
-import org.apache.poi.ss.usermodel.Font;
-import org.apache.poi.ss.usermodel.IndexedColors;
-import org.apache.poi.xssf.usermodel.XSSFCellStyle;
+
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.winium.DesktopOptions;
@@ -35,9 +31,23 @@ public class WinDemo {
 
 	public static void main(String[] args) throws MalformedURLException, InterruptedException {
 		//\\vf0013.gha.kfplc.com\Shared\Group\NWBC_Config\FullSAPUILandscape.xml
+		int rowNo=0;
+
 		WinDemo demo=new WinDemo();
-		String FilePath=System.getProperty("user.dir")+ConstantForSapLogon.SAPLOGON_EXCELNAME.getValue();
-		demo.readExcelData(FilePath);
+
+		//**************************Retrieve Opco and Environment Specific Data***************************
+
+		ConstantForSapLogon logon=new ConstantForSapLogon();
+		Fixture fix=new Fixture();
+		String opco=fix.getOpco().toUpperCase();
+		String env=fix.getEnvironment().toUpperCase();
+		Map<String,String> map=logon.valueSetter(opco, env) ;
+
+		String FilePath=System.getProperty("user.dir")+map.get("SAPLOGON_EXCELNAME");
+		System.out.println("Excel file path::"+FilePath);
+		//*********************************Retrieve Total Row No**************************************************
+
+		rowNo=demo.readExcelData(FilePath);
 		File file=new File(System.getProperty("user.dir")+"\\Result\\output.txt");
 		try
 		{
@@ -59,22 +69,22 @@ public class WinDemo {
 		WiniumDriver driver=null;
 
 		DesktopOptions option=new DesktopOptions();
-		String path=ConstantForSapLogon.SAP_LOGON_PATH.getValue();
+		String path=ConstantForSapLogon.ConstantForSap.SAP_LOGON_PATH.getValue();
 		option.setApplicationPath(path);
 		option.setDebugConnectToRunningApp(false);
 		option.setLaunchDelay(2);
 
-		driver=new WiniumDriver(new URL(ConstantForSapLogon.DESKTOP_DRIVER_URL.getValue()), option);
+		driver=new WiniumDriver(new URL(ConstantForSapLogon.ConstantForSap.DESKTOP_DRIVER_URL.getValue()), option);
 		Thread.sleep(5000);
-		if(driver.findElement(By.id(ConstantForSapLogon.SAPLOGON_TITLE.getValue())).getSize()!=null)
+		if(driver.findElement(By.id(ConstantForSapLogon.ConstantForSap.SAPLOGON_TITLE.getValue())).getSize()!=null)
 		{
-			WebElement e=driver.findElement(By.name(ConstantForSapLogon.SAPLOGON_VRZ.getValue()));
+			WebElement e=driver.findElement(By.name(ConstantForSapLogon.ConstantForSap.SAPLOGON_VRZ.getValue()));
 
 
 			Thread.sleep(1000);
 			e.click();
 
-			driver.findElement(By.name(ConstantForSapLogon.SAPLOGON_LOGIN.getValue())).click();
+			driver.findElement(By.name(ConstantForSapLogon.ConstantForSap.SAPLOGON_LOGIN.getValue())).click();
 			Thread.sleep(6000);
 
 
@@ -82,9 +92,9 @@ public class WinDemo {
 
 			try {
 				Robot robot=new Robot();
+				System.out.println("*****"+map.get("SAPLOGON_USERID"));
 
-
-				demo.simulateClipBoard(ConstantForSapLogon.SAPLOGON_USERID_VRZ.getValue(),robot);
+				demo.simulateClipBoard(map.get("SAPLOGON_USERID"),robot);
 
 
 
@@ -96,17 +106,17 @@ public class WinDemo {
 
 
 
-				demo.simulateClipBoard(ConstantForSapLogon.SAPLOGON_PASSWORD_VRZ.getValue(),robot);
+				demo.simulateClipBoard(map.get("SAPLOGON_PASSWORD"),robot);
 				robot.keyPress(KeyEvent.VK_ENTER);
 				Thread.sleep(5000);
 				try{
 
 
 
-					if(driver.findElement(By.name(ConstantForSapLogon.SAPLOGON_MULTIPLE_USER.getValue())).getSize()!=null)
+					if(driver.findElement(By.name(ConstantForSapLogon.ConstantForSap.SAPLOGON_MULTIPLE_USER.getValue())).getSize()!=null)
 					{
-						System.out.println("size1:::::"+driver.findElement(By.name(ConstantForSapLogon.SAPLOGON_MULTIPLE_USER.getValue())).getSize());
-						driver.findElement(By.name(ConstantForSapLogon.SAPLOGON_TERMINATE_LOGON.getValue())).click();
+						System.out.println("size1:::::"+driver.findElement(By.name(ConstantForSapLogon.ConstantForSap.SAPLOGON_MULTIPLE_USER.getValue())).getSize());
+						driver.findElement(By.name(ConstantForSapLogon.ConstantForSap.SAPLOGON_TERMINATE_LOGON.getValue())).click();
 					}
 				}
 				catch(Exception e1)
@@ -117,17 +127,17 @@ public class WinDemo {
 
 
 
-				if(driver.findElement(By.name(ConstantForSapLogon.SAPLOGON_EDIT.getValue())).getSize()!=null)
+				if(driver.findElement(By.name(ConstantForSapLogon.ConstantForSap.SAPLOGON_EDIT.getValue())).getSize()!=null)
 				{
 					System.out.println("Got itttt");
-					System.out.println("size2:::::"+driver.findElement(By.name(ConstantForSapLogon.SAPLOGON_EDIT.getValue())).getSize());
+					System.out.println("size2:::::"+driver.findElement(By.name(ConstantForSapLogon.ConstantForSap.SAPLOGON_EDIT.getValue())).getSize());
 
 					Actions action=new Actions(driver);
-					action.moveToElement(driver.findElement(By.className(ConstantForSapLogon.SAPLOGON_EDIT.getValue())));
+					action.moveToElement(driver.findElement(By.className(ConstantForSapLogon.ConstantForSap.SAPLOGON_EDIT.getValue())));
 
 
 
-					demo.simulateClipBoard(ConstantForSapLogon.SAPLOGON_UPLOAD_TCODE.getValue(),robot);
+					demo.simulateClipBoard(ConstantForSapLogon.ConstantForSap.SAPLOGON_UPLOAD_TCODE.getValue(),robot);
 
 					robot.keyPress(KeyEvent.VK_ENTER);
 
@@ -135,7 +145,7 @@ public class WinDemo {
 					Thread.sleep(6000);
 
 
-					String excelPath=System.getProperty("user.dir")+ConstantForSapLogon.SAPLOGON_EXCELNAME.getValue();
+					String excelPath=System.getProperty("user.dir")+map.get("SAPLOGON_EXCELNAME");
 					System.out.println("ExcelPath::::"+excelPath);
 
 
@@ -145,112 +155,112 @@ public class WinDemo {
 					Thread.sleep(2000);
 					robot.keyPress(KeyEvent.VK_TAB);
 					Thread.sleep(2000);
-					demo.simulateClipBoard(ConstantForSapLogon.SAPLOGON_PURCHASEORG.getValue(),robot);
+					demo.simulateClipBoard(map.get("SAPLOGON_PURCHASEORG"),robot);
 					robot.keyPress(KeyEvent.VK_TAB);
 					Thread.sleep(2000);
 
 					robot.keyPress(KeyEvent.VK_TAB);
 					Thread.sleep(2000);
-					demo.simulateClipBoard(ConstantForSapLogon.SAPLOGON_PURCHASEORG.getValue(),robot);
+					demo.simulateClipBoard(map.get("SAPLOGON_PURCHASEORG"),robot);
 					Thread.sleep(2000);
-					driver.findElement(By.name(ConstantForSapLogon.SAPLOGON_EXECUTE_BUTTON.getValue())).click();
+					driver.findElement(By.name(ConstantForSapLogon.ConstantForSap.SAPLOGON_EXECUTE_BUTTON.getValue())).click();
 					//robot.keyPress(KeyEvent.VK_F8);
 					Thread.sleep(4000);
 					try{
-						if(driver.findElement(By.name(ConstantForSapLogon.SAPLOGON_SECURITY_MODAL.getValue()))!=null)
+						if(driver.findElement(By.name(ConstantForSapLogon.ConstantForSap.SAPLOGON_SECURITY_MODAL.getValue()))!=null)
 						{
-							driver.findElement(By.name(ConstantForSapLogon.SAPLOGON_SECURITY_MODAL.getValue())).click();
+							driver.findElement(By.name(ConstantForSapLogon.ConstantForSap.SAPLOGON_SECURITY_MODAL.getValue())).click();
 							Thread.sleep(2000);
-							driver.findElement(By.name(ConstantForSapLogon.SAPLOGON_SECURITY_MODAL_ALLOW.getValue())).click();
-							Thread.sleep(25000);
+							driver.findElement(By.name(ConstantForSapLogon.ConstantForSap.SAPLOGON_SECURITY_MODAL_ALLOW.getValue())).click();
+							Thread.sleep(rowNo*10000);
 						}
 						else
 						{
-							Thread.sleep(20000);
+							Thread.sleep(rowNo*7000);
 						}
 					}
 					catch(Exception ex)
 					{
-						ex.printStackTrace();
-						Thread.sleep(20000);
+						ex.getMessage();
+						Thread.sleep(rowNo*7000);
 					}
 
 					Thread.sleep(3000);
 					try{
 
 
-						if(driver.findElement(By.name(ConstantForSapLogon.SAPLOGON_POST_CONFIRMATION.getValue()))!=null)
+						if(driver.findElement(By.name(ConstantForSapLogon.ConstantForSap.SAPLOGON_POST_CONFIRMATION.getValue()))!=null)
 						{
 							robot.keyPress(KeyEvent.VK_ENTER);
 							robot.keyRelease(KeyEvent.VK_ENTER);
 							Thread.sleep(4000);
-							/*driver.findElement(By.name(ConstantForSapLogon.SAPLOGON_MICROSOFT_EXCEL.getValue())).click();
+							/*driver.findElement(By.name(ConstantForSapLogon.ConstantForSap.SAPLOGON_MICROSOFT_EXCEL.getValue())).click();
 							Thread.sleep(15000);
-							if(driver.findElement(By.name(ConstantForSapLogon.SAPLOGON_SECURITY_POPUP.getValue()))!=null)
+							if(driver.findElement(By.name(ConstantForSapLogon.ConstantForSap.SAPLOGON_SECURITY_POPUP.getValue()))!=null)
 							{
 								Thread.sleep(180000);
-								driver.findElement(By.name(ConstantForSapLogon.SAPLOGON_ENABLE_MICRO.getValue())).click();*/
-								Thread.sleep(7000);
-								if( driver.findElement(By.name(ConstantForSapLogon.SAPLOGON_LOCALE_FILE.getValue())).getSize()!=null)
-								{
-									driver.findElement(By.name(ConstantForSapLogon.SAPLOGON_LOCALE_FILE.getValue())).click();
-								}
-								Thread.sleep(7000);
-								if( driver.findElement(By.name(ConstantForSapLogon.SAPLOGON_FILE_SAVE_CONTINUE.getValue())).getSize()!=null)
-								{
-									driver.findElement(By.name(ConstantForSapLogon.SAPLOGON_FILE_SAVE_CONTINUE.getValue())).click();
-								}
+								driver.findElement(By.name(ConstantForSapLogon.ConstantForSap.SAPLOGON_ENABLE_MICRO.getValue())).click();*/
+							Thread.sleep(7000);
+							if( driver.findElement(By.name(ConstantForSapLogon.ConstantForSap.SAPLOGON_LOCALE_FILE.getValue())).getSize()!=null)
+							{
+								driver.findElement(By.name(ConstantForSapLogon.ConstantForSap.SAPLOGON_LOCALE_FILE.getValue())).click();
+							}
+							Thread.sleep(7000);
+							if( driver.findElement(By.name(ConstantForSapLogon.ConstantForSap.SAPLOGON_FILE_SAVE_CONTINUE.getValue())).getSize()!=null)
+							{
+								driver.findElement(By.name(ConstantForSapLogon.ConstantForSap.SAPLOGON_FILE_SAVE_CONTINUE.getValue())).click();
+							}
 
-								String filename="output.txt";
-								String Path=System.getProperty("user.dir")+"\\Result\\";
-								Thread.sleep(2000);
-								robot.keyPress(KeyEvent.VK_CONTROL);
-								robot.keyPress(KeyEvent.VK_A);
-								robot.keyRelease(KeyEvent.VK_CONTROL);
-								robot.keyRelease(KeyEvent.VK_A);
-								demo.simulateClipBoard(filename,robot);
-								Thread.sleep(2000);
-								robot.keyPress(KeyEvent.VK_TAB);
-								Thread.sleep(1000);
-								robot.keyPress(KeyEvent.VK_TAB);
-								Thread.sleep(1000);
-								robot.keyPress(KeyEvent.VK_TAB);
-								Thread.sleep(1000);
-								robot.keyPress(KeyEvent.VK_TAB);
-								Thread.sleep(1000);
-								robot.keyPress(KeyEvent.VK_TAB);
-								Thread.sleep(1000);
-								robot.keyPress(KeyEvent.VK_TAB);
-								Thread.sleep(2000);
-								robot.keyPress(KeyEvent.VK_CONTROL);
-								robot.keyPress(KeyEvent.VK_A);
-								robot.keyRelease(KeyEvent.VK_CONTROL);
-								robot.keyRelease(KeyEvent.VK_A);
-								demo.simulateClipBoard(Path,robot);
-								if(driver.findElement(By.name(ConstantForSapLogon.SAPLOGON_GENERATE_FILE.getValue())).getSize()!=null)
-								{
-									driver.findElement(By.name(ConstantForSapLogon.SAPLOGON_GENERATE_FILE.getValue())).click();
+							String filename="output.txt";
+							String Path=System.getProperty("user.dir")+"\\Result\\";
+							Thread.sleep(2000);
+							robot.keyPress(KeyEvent.VK_CONTROL);
+							robot.keyPress(KeyEvent.VK_A);
+							robot.keyRelease(KeyEvent.VK_CONTROL);
+							robot.keyRelease(KeyEvent.VK_A);
+							demo.simulateClipBoard(filename,robot);
+							Thread.sleep(2000);
+							robot.keyPress(KeyEvent.VK_TAB);
+							Thread.sleep(1000);
+							robot.keyPress(KeyEvent.VK_TAB);
+							Thread.sleep(1000);
+							robot.keyPress(KeyEvent.VK_TAB);
+							Thread.sleep(1000);
+							robot.keyPress(KeyEvent.VK_TAB);
+							Thread.sleep(1000);
+							robot.keyPress(KeyEvent.VK_TAB);
+							Thread.sleep(1000);
+							robot.keyPress(KeyEvent.VK_TAB);
+							Thread.sleep(2000);
+							robot.keyPress(KeyEvent.VK_CONTROL);
+							robot.keyPress(KeyEvent.VK_A);
+							robot.keyRelease(KeyEvent.VK_CONTROL);
+							robot.keyRelease(KeyEvent.VK_A);
+							demo.simulateClipBoard(Path,robot);
+							if(driver.findElement(By.name(ConstantForSapLogon.ConstantForSap.SAPLOGON_GENERATE_FILE.getValue())).getSize()!=null)
+							{
+								driver.findElement(By.name(ConstantForSapLogon.ConstantForSap.SAPLOGON_GENERATE_FILE.getValue())).click();
 
-								}
-								try {
+							}
+							try {
 
-									if(driver.findElement(By.name(ConstantForSapLogon.SAPLOGON_EXCEL_DOWNLOAD_REMEMBER.getValue())).getSize()!=null)
-
-									{
-										driver.findElement(By.name(ConstantForSapLogon.SAPLOGON_EXCEL_DOWNLOAD_REMEMBER.getValue())).click();
-										Thread.sleep(5000);
-									}
-								}
-								catch(Exception exe)
-								{
-									exe.getMessage();
-								}
-								if(driver.findElement(By.name(ConstantForSapLogon.SAPLOGON_EXCEL_DOWNLOAD_ALLOW.getValue())).getSize()!=null)
+								if(driver.findElement(By.name(ConstantForSapLogon.ConstantForSap.SAPLOGON_EXCEL_DOWNLOAD_REMEMBER.getValue())).getSize()!=null)
 
 								{
-									driver.findElement(By.name(ConstantForSapLogon.SAPLOGON_EXCEL_DOWNLOAD_ALLOW.getValue())).click();
+									driver.findElement(By.name(ConstantForSapLogon.ConstantForSap.SAPLOGON_EXCEL_DOWNLOAD_REMEMBER.getValue())).click();
 									Thread.sleep(5000);
 								}
+							}
+							catch(Exception exe)
+							{
+								exe.getMessage();
+							}
+							if(driver.findElement(By.name(ConstantForSapLogon.ConstantForSap.SAPLOGON_EXCEL_DOWNLOAD_ALLOW.getValue())).getSize()!=null)
+
+							{
+								driver.findElement(By.name(ConstantForSapLogon.ConstantForSap.SAPLOGON_EXCEL_DOWNLOAD_ALLOW.getValue())).click();
+								Thread.sleep(5000);
+							}
 
 							//}
 						}
@@ -321,7 +331,7 @@ public class WinDemo {
 
 	}
 
-	public void readExcelData(String FilePath)
+	public int readExcelData(String FilePath)
 	{
 
 		int totalRowNumber = 0;
@@ -342,19 +352,6 @@ public class WinDemo {
 			System.out.println("****************lastcellno" + lastCellNo);
 			totalRowNumber = sheet.getLastRowNum();
 			System.out.println("****************roww" + totalRowNumber);
-
-			XSSFCellStyle style = workbook.createCellStyle();
-
-			/*		 
-			 Font font = workbook.createFont();
-			 font.setColor(IndexedColors.BRIGHT_GREEN.getIndex());*/
-
-			// style.setFont(font);
-			/* XSSFCellStyle style1 = workbook.createCellStyle();
-			 Font font1 = workbook.createFont();
-			 font1.setColor(IndexedColors.RED.getIndex());
-			 style1.setFont(font1);*/
-
 
 
 			if(totalRowNumber>=7)
@@ -429,6 +426,7 @@ public class WinDemo {
 				workbook.close();
 				outputStream.close();
 			}
+
 		}
 
 
@@ -438,6 +436,8 @@ public class WinDemo {
 			e.printStackTrace();
 
 		}
+
+		return totalRowNumber;
 
 	}
 }
