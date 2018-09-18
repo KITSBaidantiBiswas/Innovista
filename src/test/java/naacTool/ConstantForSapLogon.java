@@ -84,12 +84,14 @@ public enum ConstantForSap {
 		{
 			if(env.equals("VRZ"))
 			{
+				map.put("SAPLOGON_SERVER", ConstantForSap.SAPLOGON_VRZ.getValue());
 				map.put("SAPLOGON_USERID", ConstantForSap.SAPLOGON_USERID_VRZ.getValue());
 				map.put("SAPLOGON_PASSWORD", ConstantForSap.SAPLOGON_PASSWORD_VRZ.getValue());
 
 			}
 			else if(env.equals("QRZ"))
 			{
+				map.put("SAPLOGON_SERVER", ConstantForSap.SAPLOGON_QRZ.getValue());
 				map.put("SAPLOGON_USERID", ConstantForSap.SAPLOGON_USERID_QRZ.getValue());
 				map.put("SAPLOGON_PASSWORD", ConstantForSap.SAPLOGON_PASSWORD_QRZ.getValue());
 

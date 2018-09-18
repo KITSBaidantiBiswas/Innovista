@@ -31,16 +31,24 @@ public class WinDemo {
 
 	public static void main(String[] args) throws MalformedURLException, InterruptedException {
 		//\\vf0013.gha.kfplc.com\Shared\Group\NWBC_Config\FullSAPUILandscape.xml
+	
+		String opco=args[0].toUpperCase();
+		System.out.println("opco::"+opco);
+		String env=args[1].toUpperCase();
+		System.out.println("env::"+env);
 		int rowNo=0;
+		
 
 		WinDemo demo=new WinDemo();
 
 		//**************************Retrieve Opco and Environment Specific Data***************************
 
 		ConstantForSapLogon logon=new ConstantForSapLogon();
-		Fixture fix=new Fixture();
-		String opco=fix.getOpco().toUpperCase();
-		String env=fix.getEnvironment().toUpperCase();
+		//Fixture fix=new Fixture();
+		//String opco=fix.getOpco().toUpperCase();
+		/*String opco=args[0];
+		String env=args[1];*/
+		//String env=fix.getEnvironment().toUpperCase();
 		Map<String,String> map=logon.valueSetter(opco, env) ;
 
 		String FilePath=System.getProperty("user.dir")+map.get("SAPLOGON_EXCELNAME");
@@ -53,7 +61,7 @@ public class WinDemo {
 		{
 
 			if(file.exists())
-			{
+			{	
 
 				if(file.delete())
 				{
@@ -78,7 +86,7 @@ public class WinDemo {
 		Thread.sleep(5000);
 		if(driver.findElement(By.id(ConstantForSapLogon.ConstantForSap.SAPLOGON_TITLE.getValue())).getSize()!=null)
 		{
-			WebElement e=driver.findElement(By.name(ConstantForSapLogon.ConstantForSap.SAPLOGON_VRZ.getValue()));
+			WebElement e=driver.findElement(By.name(map.get("SAPLOGON_SERVER")));
 
 
 			Thread.sleep(1000);
@@ -193,13 +201,8 @@ public class WinDemo {
 						{
 							robot.keyPress(KeyEvent.VK_ENTER);
 							robot.keyRelease(KeyEvent.VK_ENTER);
-							Thread.sleep(4000);
-							/*driver.findElement(By.name(ConstantForSapLogon.ConstantForSap.SAPLOGON_MICROSOFT_EXCEL.getValue())).click();
-							Thread.sleep(15000);
-							if(driver.findElement(By.name(ConstantForSapLogon.ConstantForSap.SAPLOGON_SECURITY_POPUP.getValue()))!=null)
-							{
-								Thread.sleep(180000);
-								driver.findElement(By.name(ConstantForSapLogon.ConstantForSap.SAPLOGON_ENABLE_MICRO.getValue())).click();*/
+							
+							
 							Thread.sleep(7000);
 							if( driver.findElement(By.name(ConstantForSapLogon.ConstantForSap.SAPLOGON_LOCALE_FILE.getValue())).getSize()!=null)
 							{
@@ -274,6 +277,7 @@ public class WinDemo {
 					catch(Exception e2)
 					{
 						e2.getMessage();
+						driver.close();
 					}
 
 				} 
@@ -283,6 +287,7 @@ public class WinDemo {
 			catch (Exception e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
+				driver.close();
 			}
 			driver.close();
 
@@ -292,12 +297,11 @@ public class WinDemo {
 
 
 
-	public void simulateClipBoard(String tobeCopied,Robot robot)
-	{
+	public void simulateClipBoard(String tobeCopied, Robot robot) {
 		try {
-			StringSelection stringSelection=null;
+			StringSelection stringSelection = null;
 
-			stringSelection=new StringSelection(tobeCopied);
+			stringSelection = new StringSelection(tobeCopied);
 			Toolkit.getDefaultToolkit().getSystemClipboard().setContents(stringSelection, stringSelection);
 			robot.keyPress(KeyEvent.VK_CONTROL);
 			robot.keyPress(KeyEvent.VK_V);
@@ -306,9 +310,6 @@ public class WinDemo {
 
 			Thread.sleep(3000);
 
-
-
-
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -316,107 +317,74 @@ public class WinDemo {
 
 	}
 
-	public String generateRandKey()
-	{
-		Date date=new Date();
-		DateFormat df= new SimpleDateFormat("ddMMYYYYHHmmss");
+	public String generateRandKey() {
+		Date date = new Date();
+		DateFormat df = new SimpleDateFormat("ddMMYYYYHHmmss");
 
-		//Random rand=new Random();
-		String randkey=df.format(date)+"BQ";
+		// Random rand=new Random();
+		String randkey = df.format(date) + "BQ";
 
-		System.out.println("Random key"+randkey);
+		System.out.println("Random key" + randkey);
 		return randkey;
-
-
 
 	}
 
-	public int readExcelData(String FilePath)
-	{
+	public int readExcelData(String FilePath) {
 
 		int totalRowNumber = 0;
-		try{
+		try {
 
-
-
-
-			//file = new FileInputStream(new File(FILE_PATH));
+			// file = new FileInputStream(new File(FILE_PATH));
 			System.out.println(" ******** Obtained file");
 			XSSFWorkbook workbook;
 			System.out.println(" ******** Inside read file");
 
 			workbook = new XSSFWorkbook(new FileInputStream(new File(FilePath).getAbsolutePath()));
 			XSSFSheet sheet = workbook.getSheetAt(0);
-			System.out.println(" ******** Inside sheet file"+sheet);
+			System.out.println(" ******** Inside sheet file" + sheet);
 			int lastCellNo = sheet.getRow(0).getLastCellNum();
 			System.out.println("****************lastcellno" + lastCellNo);
 			totalRowNumber = sheet.getLastRowNum();
 			System.out.println("****************roww" + totalRowNumber);
 
-
-			if(totalRowNumber>=7)
-			{
-
-
+			if (totalRowNumber >= 7) {
 
 				for (int i = 7; i <= totalRowNumber; i++) {
-					try{
+					try {
 
+						String key = "";
+						DateFormat df = new SimpleDateFormat("YYYYMMdd");
+						Date date = new Date();
+						String todayDate = df.format(date);
 
+						System.out.println("****************i value" + i + sheet.getPhysicalNumberOfRows());
 
-						String key="";
-						DateFormat df= new SimpleDateFormat("YYYYMMdd");
-						Date date=new Date();
-						String todayDate=df.format(date);
+						
 
+						key = generateRandKey() + i;
 
-
-						System.out.println("****************i value" + i
-								+ sheet.getPhysicalNumberOfRows());
-
-
-
-						//*************************Unique Key Input****************************
-
-
-						key=generateRandKey()+i;
-
-						try
-						{
-
+						try {
 
 							sheet.getRow(i).getCell(1).setCellValue(key);
 
-						}
-						catch(Exception e)
-						{
+						} catch (Exception e) {
 							sheet.getRow(i).createCell(1).setCellValue(key);
 
 						}
 
-						//***********************Available From***************************
+						
 
-
-
-
-						System.out.println("Available frm:::"+todayDate);
-						try
-						{
-
+						System.out.println("Available frm:::" + todayDate);
+						try {
 
 							sheet.getRow(i).getCell(78).setCellValue(todayDate);
 
-						}
-						catch(Exception e)
-						{
+						} catch (Exception e) {
 							sheet.getRow(i).createCell(78).setCellValue(todayDate);
 
 						}
 
-
-					}
-					catch(Exception e)
-					{
+					} catch (Exception e) {
 						e.printStackTrace();
 					}
 
@@ -429,10 +397,8 @@ public class WinDemo {
 
 		}
 
-
-
 		catch (Exception e) {
-			System.out.println("****************In Exception2 ::"+e.getMessage());
+			System.out.println("****************In Exception2 ::" + e.getMessage());
 			e.printStackTrace();
 
 		}
