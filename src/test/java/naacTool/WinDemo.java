@@ -7,9 +7,12 @@ import java.awt.Toolkit;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.DateFormat;
@@ -31,24 +34,42 @@ public class WinDemo {
 
 	public static void main(String[] args) throws MalformedURLException, InterruptedException {
 		//\\vf0013.gha.kfplc.com\Shared\Group\NWBC_Config\FullSAPUILandscape.xml
-	
+
+		try {
+			String processName = "EXCEL.EXE";
+			if (isProcessRunning(processName)) {
+
+				killProcess(processName);
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		Runtime rtt=Runtime.getRuntime();
+		try {
+
+			rtt.exec(System.getProperty("user.dir")+"\\Winium.Desktop.Driver.exe");
+			//"C:\\downloads\\Winium.Desktop.Driver\\Winium.Desktop.Driver.exe");
+
+		} catch (IOException e3) {
+			// TODO Auto-generated catch block
+			e3.printStackTrace();
+		}//*****************************************Start Driver**************************************
+
 		String opco=args[0].toUpperCase();
 		System.out.println("opco::"+opco);
 		String env=args[1].toUpperCase();
 		System.out.println("env::"+env);
 		int rowNo=0;
-		
+
 
 		WinDemo demo=new WinDemo();
 
 		//**************************Retrieve Opco and Environment Specific Data***************************
 
 		ConstantForSapLogon logon=new ConstantForSapLogon();
-		//Fixture fix=new Fixture();
-		//String opco=fix.getOpco().toUpperCase();
-		/*String opco=args[0];
-		String env=args[1];*/
-		//String env=fix.getEnvironment().toUpperCase();
+
 		Map<String,String> map=logon.valueSetter(opco, env) ;
 
 		String FilePath=System.getProperty("user.dir")+map.get("SAPLOGON_EXCELNAME");
@@ -74,6 +95,9 @@ public class WinDemo {
 		{
 			e.getMessage();
 		}
+
+
+
 		WiniumDriver driver=null;
 
 		DesktopOptions option=new DesktopOptions();
@@ -177,10 +201,10 @@ public class WinDemo {
 					try{
 						if(driver.findElement(By.name(ConstantForSapLogon.ConstantForSap.SAPLOGON_SECURITY_MODAL.getValue()))!=null)
 						{
-							driver.findElement(By.name(ConstantForSapLogon.ConstantForSap.SAPLOGON_SECURITY_MODAL.getValue())).click();
-							Thread.sleep(2000);
+							/*driver.findElement(By.name(ConstantForSapLogon.ConstantForSap.SAPLOGON_SECURITY_MODAL.getValue())).click();
+							Thread.sleep(2000);*/
 							driver.findElement(By.name(ConstantForSapLogon.ConstantForSap.SAPLOGON_SECURITY_MODAL_ALLOW.getValue())).click();
-							Thread.sleep(rowNo*10000);
+							Thread.sleep(rowNo*5000);
 						}
 						else
 						{
@@ -201,14 +225,14 @@ public class WinDemo {
 						{
 							robot.keyPress(KeyEvent.VK_ENTER);
 							robot.keyRelease(KeyEvent.VK_ENTER);
-							
-							
-							Thread.sleep(7000);
+
+
+							Thread.sleep(5000);
 							if( driver.findElement(By.name(ConstantForSapLogon.ConstantForSap.SAPLOGON_LOCALE_FILE.getValue())).getSize()!=null)
 							{
 								driver.findElement(By.name(ConstantForSapLogon.ConstantForSap.SAPLOGON_LOCALE_FILE.getValue())).click();
 							}
-							Thread.sleep(7000);
+							Thread.sleep(5000);
 							if( driver.findElement(By.name(ConstantForSapLogon.ConstantForSap.SAPLOGON_FILE_SAVE_CONTINUE.getValue())).getSize()!=null)
 							{
 								driver.findElement(By.name(ConstantForSapLogon.ConstantForSap.SAPLOGON_FILE_SAVE_CONTINUE.getValue())).click();
@@ -262,22 +286,17 @@ public class WinDemo {
 
 							{
 								driver.findElement(By.name(ConstantForSapLogon.ConstantForSap.SAPLOGON_EXCEL_DOWNLOAD_ALLOW.getValue())).click();
-								Thread.sleep(5000);
+								Thread.sleep(3000);
 							}
 
-							//}
+
 						}
-
-
-
-
-
 
 					}
 					catch(Exception e2)
 					{
 						e2.getMessage();
-						driver.close();
+
 					}
 
 				} 
@@ -287,12 +306,28 @@ public class WinDemo {
 			catch (Exception e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
-				driver.close();
+
 			}
-			driver.close();
+
 
 
 		}
+		driver.close();
+
+
+		//System.out.print(isProcessRunning(processName));
+
+		try {
+			String processName = "Winium.Desktop.Driver.exe";
+			if (isProcessRunning(processName)) {
+
+				killProcess(processName);
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
 
 
@@ -308,7 +343,7 @@ public class WinDemo {
 			robot.keyRelease(KeyEvent.VK_V);
 			robot.keyRelease(KeyEvent.VK_CONTROL);
 
-			Thread.sleep(3000);
+			Thread.sleep(2000);
 
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
@@ -359,7 +394,7 @@ public class WinDemo {
 
 						System.out.println("****************i value" + i + sheet.getPhysicalNumberOfRows());
 
-						
+
 
 						key = generateRandKey() + i;
 
@@ -372,7 +407,7 @@ public class WinDemo {
 
 						}
 
-						
+
 
 						System.out.println("Available frm:::" + todayDate);
 						try {
@@ -404,6 +439,34 @@ public class WinDemo {
 		}
 
 		return totalRowNumber;
+
+	}
+
+
+	private static final String TASKLIST = "tasklist";
+	private static final String KILL = "taskkill /F /IM ";
+
+	public static boolean isProcessRunning(String serviceName) throws Exception {
+
+		Process p = Runtime.getRuntime().exec(TASKLIST);
+		BufferedReader reader = new BufferedReader(new InputStreamReader(
+				p.getInputStream()));
+		String line;
+		while ((line = reader.readLine()) != null) {
+
+			System.out.println(line);
+			if (line.contains(serviceName)) {
+				return true;
+			}
+		}
+
+		return false;
+
+	}
+
+	public static void killProcess(String serviceName) throws Exception {
+
+		Runtime.getRuntime().exec(KILL + serviceName);
 
 	}
 }
