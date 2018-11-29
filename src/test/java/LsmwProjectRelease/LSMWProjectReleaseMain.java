@@ -53,10 +53,15 @@ public class LSMWProjectReleaseMain {
 		
 		release.Release(opco,env);
 				}
-		else
+		else if(type.equals("negative"))
 		{
 			LSMWProjectReleaseNegative negative=new LSMWProjectReleaseNegative();
 			negative.Release(opco,env);
+		}
+		else
+		{
+			LsmwProjectAucUpload auc=new LsmwProjectAucUpload();
+			auc.Release(opco, env);
 		}
 		
 	}

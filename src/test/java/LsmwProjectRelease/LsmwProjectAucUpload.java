@@ -1,6 +1,7 @@
 package LsmwProjectRelease;
 
 import java.awt.AWTException;
+import java.awt.RenderingHints.Key;
 import java.awt.Robot;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
@@ -61,7 +62,7 @@ public class LsmwProjectAucUpload {
 
 
 		Runtime rtt=Runtime.getRuntime();
-		try {
+		/*try {
 
 			rtt.exec(System.getProperty("user.dir")+"\\Winium.Desktop.Driver.exe");
 			//"C:\\downloads\\Winium.Desktop.Driver\\Winium.Desktop.Driver.exe");
@@ -69,7 +70,7 @@ public class LsmwProjectAucUpload {
 		} catch (IOException e3) {
 			// TODO Auto-generated catch block
 			e3.printStackTrace();
-		}///*****************************************Start Driver**************************************
+		}*////*****************************************Start Driver**************************************
 
 
 
@@ -292,7 +293,7 @@ public class LsmwProjectAucUpload {
 					Thread.sleep(2000);
 					robot.keyPress(KeyEvent.VK_ENTER);
 					Thread.sleep(4000);
-					pressTab(robot,12);
+					pressTab(robot,11);
 					Thread.sleep(2000);
 					demo.simulateClipBoard("Z1019",robot);
 					Thread.sleep(2000);
@@ -345,8 +346,9 @@ public class LsmwProjectAucUpload {
 					robot.keyRelease(KeyEvent.VK_CONTROL);
 					Thread.sleep(5000);
 					
-					
-					demo.modifyBeforeUpload(projectName);
+					String wbs=fetchAssetId(projectName);
+					System.out.println("Wbs element::"+wbs);
+					demo.modifyBeforeUpload(wbs);
 
 					demo.Upload(driver);
 					Thread.sleep(3000);
@@ -358,21 +360,16 @@ public class LsmwProjectAucUpload {
 					Thread.sleep(1000);
 					robot.keyPress(KeyEvent.VK_TAB);
 					Thread.sleep(4000);
-					driver.close();
+					//driver.close();
 
-											relStatus=chrome.findElement(By.xpath("//*[@id='M0:U:1:4:1:2B256:1::1:17']")).getAttribute("value");
-						if(relStatus.equals("REL"))
-						{
-							System.out.println("The project has been Released ");
-							status="PASS";
-						}
+											
 
 
 					} 
-					chrome.close();
+					
 				}
 
-			}
+			
 			//driver.close();
 
 			catch (Exception e1) {
@@ -415,7 +412,7 @@ public class LsmwProjectAucUpload {
 
 
 
-			File file1 = new File(System.getProperty("user.dir")+"\\project release.txt");
+			File file1 = new File(System.getProperty("user.dir")+"\\Auc.txt");
 			System.out.println("the upload file:"+file1);
 			BufferedReader reader = new BufferedReader(new FileReader(file1));
 			String line = "", oldtext ="";
@@ -611,10 +608,13 @@ public class LsmwProjectAucUpload {
 
 	public String fetchAssetId(String projectName)
 	{
-		String assetvalue="";
-		String wbsElement=projectName+"1";
-		System.setProperty("webdriver.chrome.driver",System.getProperty("user.dir")+"\\chromedriver.exe");
+		System.setProperty("webdriver.chrome.driver","C:\\POI\\chromedriver.exe");
 		WebDriver chrome= new ChromeDriver();
+		String assetvalue="";
+		try{
+		
+		String wbsElement=projectName+"1";
+		
 
 		chrome.manage().window().maximize();
 		chrome.navigate().to(ConstantForSapLogon.ConstantForSap.SAP_FRZ_URL.getValue());
@@ -683,15 +683,31 @@ public class LsmwProjectAucUpload {
 			System.out.println("***********Switched Frame ITSFRAME1*********");
 			Thread.sleep(5000);
 			
-			Actions actions= new Actions(chrome);
-			actions.keyDown(Keys.CONTROL).keyDown(Keys.SHIFT).keyDown(Keys.F2).keyUp(Keys.CONTROL).keyUp(Keys.SHIFT).keyUp(Keys.F2).perform();
+			/*Actions actions= new Actions(chrome);
+			actions.keyDown(chrome.findElement(By.xpath("//*[@id='M1:D:13::btn[0]']")),Keys.CONTROL).keyDown(chrome.findElement(By.xpath("//*[@id='M1:D:13::btn[0]']")),Keys.SHIFT).keyDown(chrome.findElement(By.xpath("//*[@id='M1:D:13::btn[0]']")),Keys.F2).keyUp(chrome.findElement(By.xpath("//*[@id='M1:D:13::btn[0]']")),Keys.F2).keyUp(chrome.findElement(By.xpath("//*[@id='M1:D:13::btn[0]']")),Keys.SHIFT).keyUp(chrome.findElement(By.xpath("//*[@id='M1:D:13::btn[0]']")),Keys.CONTROL).perform();
+			*/
+			Robot robot=new Robot();
+			robot.keyPress(KeyEvent.VK_CONTROL);
+			robot.keyPress(KeyEvent.VK_SHIFT);
+			robot.keyPress(KeyEvent.VK_F2);
+			robot.keyRelease(KeyEvent.VK_CONTROL);
+			robot.keyRelease(KeyEvent.VK_SHIFT);
+			robot.keyRelease(KeyEvent.VK_F2);
 			
-			
+			Thread.sleep(3000);
 
 		 assetvalue=chrome.findElement(By.xpath("//*[@id='M0:U:2::0:11']")).getAttribute("value");
+		 System.out.println("Retrieved Value:::::"+assetvalue);
+		
 	}
-		chrome.close();
-		return assetvalue;
+		}
+		catch(Exception e)
+		{
+			
+		}
+		 chrome.close();
+			return assetvalue;
+		
 		
 	}
 		
@@ -743,21 +759,21 @@ public class LsmwProjectAucUpload {
 			robot.keyPress(KeyEvent.VK_A);
 			robot.keyRelease(KeyEvent.VK_CONTROL);
 			robot.keyRelease(KeyEvent.VK_A);
-			this.simulateClipBoard(ConstantForSapLogon.ConstantForSap.LSMW_PROJECT_LSMW.getValue(),robot);
+			this.simulateClipBoard(ConstantForSapLogon.ConstantForSap.LSMW_PROJECT_AUC_LSMW.getValue(),robot);
 			Thread.sleep(2000);
 			robot.keyPress(KeyEvent.VK_TAB);
 			robot.keyPress(KeyEvent.VK_CONTROL);
 			robot.keyPress(KeyEvent.VK_A);
 			robot.keyRelease(KeyEvent.VK_CONTROL);
 			robot.keyRelease(KeyEvent.VK_A);
-			this.simulateClipBoard(ConstantForSapLogon.ConstantForSap.LSMW_SUBPROJECT_LSMW.getValue(),robot);
+			this.simulateClipBoard(ConstantForSapLogon.ConstantForSap.LSMW_PROJECT_AUC_LSMW.getValue(),robot);
 			Thread.sleep(2000);
 			robot.keyPress(KeyEvent.VK_TAB);
 			robot.keyPress(KeyEvent.VK_CONTROL);
 			robot.keyPress(KeyEvent.VK_A);
 			robot.keyRelease(KeyEvent.VK_CONTROL);
 			robot.keyRelease(KeyEvent.VK_A);
-			this.simulateClipBoard(ConstantForSapLogon.ConstantForSap.LSMW_OBJECT_LSMW.getValue(),robot);
+			this.simulateClipBoard(ConstantForSapLogon.ConstantForSap.LSMW_PROJECT_AUC_LSMW.getValue(),robot);
 			Thread.sleep(2000);
 			robot.keyPress(KeyEvent.VK_ENTER);
 			Thread.sleep(2000);
@@ -890,6 +906,7 @@ public class LsmwProjectAucUpload {
 				robot.keyPress(KeyEvent.VK_F2);
 				Thread.sleep(4000);
 				robot.keyPress(KeyEvent.VK_F8);
+				Thread.sleep(6000);
 				try{
 
 
@@ -1110,11 +1127,28 @@ public class LsmwProjectAucUpload {
 						Thread.sleep(4000);
 						driver.findElement(By.id(ConstantForSapLogon.ConstantForSap.LSMW_CREATE_PROJECT_CONTINUE.getValue())).click();
 						Thread.sleep(4000);
+						robot.keyPress(KeyEvent.VK_ENTER);
+						Thread.sleep(2000);
+						robot.keyPress(KeyEvent.VK_ENTER);
+						Thread.sleep(2000);
+						robot.keyPress(KeyEvent.VK_ENTER);
+						Thread.sleep(2000);
+						robot.keyPress(KeyEvent.VK_ENTER);
+						Thread.sleep(5000);
+						
+						driver.findElement(By.name(ConstantForSapLogon.ConstantForSap.LSMW_FILE_SAVE_CONTINUE.getValue())).click();
+						Thread.sleep(2000);
+						
+						//driver.findElement(By.name(ConstantForSapLogon.ConstantForSap.LSMW_CREATE_PROJECT_CONTINUE.getValue())).click();
 						driver.findElement(By.id(ConstantForSapLogon.ConstantForSap.LSMW_CREATE_PROJECT_CONTINUE.getValue())).click();
 						Thread.sleep(4000);
 						driver.findElement(By.id(ConstantForSapLogon.ConstantForSap.LSMW_CREATE_PROJECT_CONTINUE.getValue())).click();
+						Thread.sleep(4000);
 
 						System.out.println("Ending 4 times....");
+						driver.findElement(By.name(ConstantForSapLogon.ConstantForSap.LSMW_FILE_SAVE_CONTINUE.getValue())).click();
+						Thread.sleep(2000);
+						
 
 					}
 				}
@@ -1123,8 +1157,8 @@ public class LsmwProjectAucUpload {
 					ex.printStackTrace();
 				}
 
-				robot.keyPress(KeyEvent.VK_ENTER);
-				Thread.sleep(2000);
+				//robot.keyPress(KeyEvent.VK_ENTER);
+				//Thread.sleep(2000);
 
 				try{
 
