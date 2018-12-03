@@ -45,10 +45,11 @@ public class LsmwProjectAucUpload {
 	public  void Release(String opco,String env) throws MalformedURLException, InterruptedException {
 		//\\vf0013.gha.kfplc.com\Shared\Group\NWBC_Config\FullSAPUILandscape.xml
 		ReportGeneration report=new ReportGeneration();
-		String column1[]={"Scenario Name","Project No","Sap Project Status","Validated","Status"};
+		String column1[]={"Scenario Name","Project No","AUC Created","Status"};
 		String comment="";
 		String status="FAIL";
 		String relStatus="";
+		String aucStatus="";
 		try {
 			String processName = "notepad.exe";
 			if (isProcessRunning(processName)) {
@@ -62,7 +63,7 @@ public class LsmwProjectAucUpload {
 
 
 		Runtime rtt=Runtime.getRuntime();
-		/*try {
+		try {
 
 			rtt.exec(System.getProperty("user.dir")+"\\Winium.Desktop.Driver.exe");
 			//"C:\\downloads\\Winium.Desktop.Driver\\Winium.Desktop.Driver.exe");
@@ -70,7 +71,7 @@ public class LsmwProjectAucUpload {
 		} catch (IOException e3) {
 			// TODO Auto-generated catch block
 			e3.printStackTrace();
-		}*////*****************************************Start Driver**************************************
+		}///*****************************************Start Driver**************************************
 
 
 
@@ -360,6 +361,8 @@ public class LsmwProjectAucUpload {
 					Thread.sleep(1000);
 					robot.keyPress(KeyEvent.VK_TAB);
 					Thread.sleep(4000);
+					status="PASS";
+					aucStatus="AUC Upload Successful";
 					//driver.close();
 
 											
@@ -379,7 +382,7 @@ public class LsmwProjectAucUpload {
 			}
 
 
-			String reportData1[]={"Lsmw Project Release",projectName,relStatus,"The project has been Released",status};
+			String reportData1[]={"Lsmw AUC Mass Upload",projectName,aucStatus,status};
 
 			report.generateReport(1,column1,reportData1,"Report.xlsx");
 
@@ -608,7 +611,7 @@ public class LsmwProjectAucUpload {
 
 	public String fetchAssetId(String projectName)
 	{
-		System.setProperty("webdriver.chrome.driver","C:\\POI\\chromedriver.exe");
+		System.setProperty("webdriver.chrome.driver",System.getProperty("user.dir")+"\\chromedriver.exe");
 		WebDriver chrome= new ChromeDriver();
 		String assetvalue="";
 		try{

@@ -32,15 +32,13 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="G:/POI/commons-collections4-4.2.jar"/>
-	<classpathentry kind="lib" path="G:/POI/ooxml-schemas-1.3.jar"/>
-	<classpathentry kind="lib" path="G:/POI/poi-3.17.jar"/>
-	<classpathentry kind="lib" path="G:/POI/poi-examples-3.16.jar"/>
-	<classpathentry kind="lib" path="G:/POI/poi-excelant-3.16.jar"/>
-	<classpathentry kind="lib" path="G:/POI/poi-ooxml-3.17.jar"/>
-	<classpathentry kind="lib" path="G:/POI/poi-ooxml-schemas-3.6.jar"/>
-	<classpathentry kind="lib" path="G:/POI/poi-ooxml-schemas-3.16.jar"/>
-	<classpathentry kind="lib" path="G:/POI/poi-scratchpad-3.16.jar"/>
-	<classpathentry kind="lib" path="G:/POI/xmlbeans-2.6.0.jar"/>
+	<classpathentry kind="lib" path="C:/downloads/ooxml-schemas-1.3.jar"/>
+	<classpathentry kind="lib" path="C:/downloads/poi-scratchpad-3.16.jar"/>
+	<classpathentry kind="lib" path="C:/downloads/poi-examples-3.16.jar"/>
+	<classpathentry kind="lib" path="C:/downloads/poi-excelant-3.16.jar"/>
+	<classpathentry kind="lib" path="C:/downloads/commons-collections4-4.2.jar"/>
+	<classpathentry kind="lib" path="C:/downloads/xmlbeans-2.6.0.jar"/>
+	<classpathentry kind="lib" path="C:/downloads/poi/poi/poi-3.17.jar"/>
+	<classpathentry kind="lib" path="C:/downloads/poi/poi/poi-ooxml-3.17.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
