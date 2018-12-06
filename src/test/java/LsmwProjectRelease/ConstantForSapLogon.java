@@ -81,6 +81,7 @@ public class ConstantForSapLogon {
 		SAP_FRZ_URL("https://rqaecc.b-and-q.com/nwbc_login/"),
 		SAP_WEB_OPEN_ICON("//*[@title='Open ']"),
 		LSMW_PROJECT_DOES_NOT_EXISTS("Project CP01ABCDZYX123 does not exist"),
+		LSMW_FICO_JOURNAL("/nzfi004"),
 		
 
 

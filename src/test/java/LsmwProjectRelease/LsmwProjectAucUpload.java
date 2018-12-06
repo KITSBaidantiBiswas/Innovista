@@ -41,8 +41,10 @@ import org.openqa.selenium.winium.WiniumDriver;
 import LsmwProjectRelease.ConstantForSapLogon;
 
 public class LsmwProjectAucUpload {
+	
 
 	public  void Release(String opco,String env) throws MalformedURLException, InterruptedException {
+		System.out.println("Im here"+opco+env);
 		//\\vf0013.gha.kfplc.com\Shared\Group\NWBC_Config\FullSAPUILandscape.xml
 		ReportGeneration report=new ReportGeneration();
 		String column1[]={"Scenario Name","Project No","AUC Created","Status"};
@@ -66,7 +68,7 @@ public class LsmwProjectAucUpload {
 		try {
 
 			rtt.exec(System.getProperty("user.dir")+"\\Winium.Desktop.Driver.exe");
-			//"C:\\downloads\\Winium.Desktop.Driver\\Winium.Desktop.Driver.exe");
+			//rtt.exec("C:\\downloads\\ZenEssential-ZenEssential\\POI\\Winium.Desktop.Driver.exe");
 
 		} catch (IOException e3) {
 			// TODO Auto-generated catch block
@@ -226,6 +228,7 @@ public class LsmwProjectAucUpload {
 					pressTab(robot,13);
 					Thread.sleep(4000);
 					projectName=ConstantForSapLogon.ConstantForSap.LSMW_CJ20N_PROJECTNAME.getValue();
+					System.out.println(projectName);
 					demo.simulateClipBoard(projectName,robot);
 					robot.keyPress(KeyEvent.VK_TAB);
 					Thread.sleep(1000);
@@ -612,6 +615,7 @@ public class LsmwProjectAucUpload {
 	public String fetchAssetId(String projectName)
 	{
 		System.setProperty("webdriver.chrome.driver",System.getProperty("user.dir")+"\\chromedriver.exe");
+		//System.setProperty("webdriver.chrome.driver","C:\\downloads\\ZenEssential-ZenEssential\\POI\\chromedriver.exe");
 		WebDriver chrome= new ChromeDriver();
 		String assetvalue="";
 		try{
