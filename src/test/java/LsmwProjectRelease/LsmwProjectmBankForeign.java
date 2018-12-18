@@ -25,8 +25,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-
-
+import java.util.Random;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
@@ -39,7 +38,7 @@ import org.openqa.selenium.winium.WiniumDriver;
 
 import LsmwProjectRelease.ConstantForSapLogon;
 
-public class LsmwProjectRelease {
+public class LsmwProjectmBankForeign {
 
 	public  void Execute(String opco,String env) throws MalformedURLException, InterruptedException {
 		//\\vf0013.gha.kfplc.com\Shared\Group\NWBC_Config\FullSAPUILandscape.xml
@@ -48,6 +47,7 @@ public class LsmwProjectRelease {
 		String comment="";
 		String status="FAIL";
 		String relStatus="";
+		String S="";
 		try {
 			String processName = "notepad.exe";
 			if (isProcessRunning(processName)) {
@@ -57,7 +57,6 @@ public class LsmwProjectRelease {
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-
 		}
 		
 
@@ -65,7 +64,7 @@ public class LsmwProjectRelease {
 	try {
 
 			rtt.exec(System.getProperty("user.dir")+"\\Winium.Desktop.Driver.exe");
-			//"C:\\downloads\\Winium.Desktop.Driver\\Winium.Desktop.Driver.exe");
+			//rtt.exec("C:\\downloads\\ZenEssential-ZenEssential\\POI\\Winium.Desktop.Driver.exe");
 
 		} catch (IOException e3) {
 			// TODO Auto-generated catch block
@@ -77,7 +76,7 @@ public class LsmwProjectRelease {
 		int rowNo=0;
 
 
-		LsmwProjectRelease demo=new LsmwProjectRelease();
+		LsmwProjectmBankForeign demo=new LsmwProjectmBankForeign();
 
 		//**************************Retrieve Opco and Environment Specific Data***************************
 
@@ -122,7 +121,174 @@ public class LsmwProjectRelease {
 		{
 			e.getMessage();
 		}
+		//selenium
+		System.setProperty("webdriver.chrome.driver",System.getProperty("user.dir")+"\\chromedriver.exe");
+		WebDriver chrome= new ChromeDriver();
 
+		chrome.manage().window().maximize();
+		chrome.navigate().to(ConstantForSapLogon.ConstantForSap.SAP_FRZ_URL.getValue());
+		Thread.sleep(4000);
+
+		if (chrome.findElement(By.xpath("//*[@id='sap-user']")).getSize()!=null) {
+
+
+		chrome.findElement(By.xpath("//*[@id='sap-user']")).sendKeys(ConstantForSapLogon.ConstantForSap.LSMW_USERID_FRZ.getValue());
+		Thread.sleep(2000);
+		chrome.findElement(By.xpath("//*[@id='sap-password']")).sendKeys(ConstantForSapLogon.ConstantForSap.LSMW_PASSWORD_FRZ.getValue());
+
+		chrome.findElement(By.xpath("//*[@id='LOGON_BUTTON-txt']/span")).click();
+		Thread.sleep(2000);
+
+		try {
+
+
+
+		if (chrome.findElement(By.xpath(
+		"//*[@id='SESSION_QUERY_CONTINUE_BUTTON-txt']/span")).getSize()!=null) {
+
+		chrome.findElement(By.xpath("//*[@id='SESSION_QUERY_CONTINUE_BUTTON-txt']/span")).click();
+
+		Thread.sleep(4000);
+		}
+		}
+		catch(Exception exc)
+		{
+		exc.printStackTrace();
+		}
+
+		chrome.switchTo().frame(0);
+		Thread.sleep(2000);
+		chrome.switchTo().frame("ITSFRAME1");
+		System.out.println("***********Switched Frame ITSFRAME1*********");
+		Thread.sleep(6000);
+
+		if (chrome.findElement(By.xpath("//*[@id='M0:D:10::okcd']")).getSize()!=null) {
+
+		chrome.findElement(By.xpath("//*[@id='M0:D:10::okcd']")).sendKeys("/nfb60");
+		Thread.sleep(2000);
+		chrome.findElement(By.xpath("//*[@id='M0:D:10::okcd']")).sendKeys(Keys.ENTER);
+		}
+
+		// getDriver().findElement(By.xpath("//*[@name='ToolbarOkCode']")).sendKeys(Keys.);
+
+		Thread.sleep(7000);
+		if (chrome.findElement(By.xpath("//input[@id='M0:U:1:2B264::0:16']")).getSize()!=null)
+		{
+		chrome.findElement(By.xpath("//input[@id='M0:U:1:2B264::0:16']")).sendKeys(ConstantForSapLogon.ConstantForSap.NBANK_VENDOR_VALUE_FOREIGN.getValue());
+		chrome.findElement(By.xpath("//input[@id='M0:U:1:2B264::0:16']")).sendKeys(Keys.ENTER);
+		Thread.sleep(2000);
+
+		}
+
+		if (chrome.findElement(By.xpath("//input[@id='M0:U:1:2B264::1:16']")).getSize()!=null)
+		{
+			
+			DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+			DateFormat timeSpan = new SimpleDateFormat("mmss");
+			Date date = new Date();
+			Date now = new Date();
+			String todayDate=dateFormat.format(date);
+			String executionTime=dateFormat.format(now);
+		chrome.findElement(By.xpath("//input[@id='M0:U:1:2B264::1:16']")).sendKeys(todayDate);
+		Thread.sleep(3000);
+		chrome.findElement(By.xpath("//input[@id='M0:U:1:2B264::1:16']")).sendKeys(Keys.ENTER);
+		Thread.sleep(5000);
+		}
+
+		if (chrome.findElement(By.xpath("//input[@id='M0:U:1:2B264::1:47']")).getSize()!=null)
+		{
+		//Random number has to be given here chrome.findElement(By.xpath("//input[@id='M0:U:1:2B264::1:47']")).sendKeys(dateFormat.format(date));
+		Random rand = new Random();
+
+		int n = rand.nextInt(50) + 1;
+		String str = Integer.toString(n);
+		chrome.findElement(By.xpath("//input[@id='M0:U:1:2B264::1:47']")).sendKeys(str);
+
+		chrome.findElement(By.xpath("//input[@id='M0:U:1:2B264::1:47']")).sendKeys(Keys.ENTER);
+		Thread.sleep(5000);
+		}
+
+		if (chrome.findElement(By.xpath("//input[@id='M0:U:1:2B264::4:16']")).getSize()!=null)
+		{
+		chrome.findElement(By.xpath("//input[@id='M0:U:1:2B264::4:16']")).sendKeys(ConstantForSapLogon.ConstantForSap.NBANK_AMOUNT_VALUE.getValue());
+
+		Thread.sleep(5000);
+		}
+		
+		chrome.findElement(By.xpath("//input[@id='M0:U:1:2B264::4:36']")).clear();
+		Thread.sleep(3000);
+		chrome.findElement(By.xpath("//input[@id='M0:U:1:2B264::4:36']")).sendKeys(ConstantForSapLogon.ConstantForSap.NBANK_CURRENCY_KEY_FOREIGN.getValue());
+		Thread.sleep(3000);
+
+		
+
+		if (chrome.findElement(By.xpath("//input[starts-with(@id,'tbl')][contains(@id,'[1,2]')]")).getSize()!=null)
+		{
+		chrome.findElement(By.xpath("//input[starts-with(@id,'tbl')][contains(@id,'[1,2]')]")).sendKeys(ConstantForSapLogon.ConstantForSap.NBANK_GL_ACCOUNT_VALUE.getValue());   
+		Thread.sleep(5000);
+		}
+
+		if (chrome.findElement(By.xpath("//div[@id='M0:U:4:1_hscroll-Nxt']")).getSize()!=null)
+		{
+		chrome.findElement(By.xpath("//input[starts-with(@id,'tbl')][contains(@id,'[1,5]')]")).sendKeys(ConstantForSapLogon.ConstantForSap.NBANK_AMMOUNT_IN_DOC_VALUE.getValue());
+		Thread.sleep(3000);
+
+		for (int i=0;i<=24;i++){
+		chrome.findElement(By.xpath("//div[@id='M0:U:4:1_hscroll-Nxt']")).click();
+		}
+
+
+
+		chrome.findElement(By.xpath("//input[starts-with(@id,'tbl')][contains(@id,'[1,28]')]")).sendKeys(ConstantForSapLogon.ConstantForSap.NBANK_PROFIT_CENTER_VALUE.getValue());   
+
+		Thread.sleep(5000);
+		chrome.findElement(By.xpath("//input[starts-with(@id,'tbl')][contains(@id,'[1,28]')]")).sendKeys(Keys.ENTER);
+		Thread.sleep(5000);
+		chrome.findElement(By.xpath("//input[starts-with(@id,'tbl')][contains(@id,'[1,2]')]")).sendKeys(Keys.ENTER);
+
+		}
+
+		if (chrome.findElement(By.xpath("//div[@id='M0:U:1::0:1']")).isDisplayed())
+		{
+		System.out.println("***********NBANK_PAYMENT_TAB*********");
+		chrome.findElement(By.xpath("//input[@id='M0:U:1:2B264::6:16']")).click();
+		Thread.sleep(5000);
+		chrome.findElement(By.xpath("//input[@id='M0:U:1:2B264::6:16']")).sendKeys(Keys.PAGE_UP);
+		Thread.sleep(5000);
+		System.out.println("***********PAGE UP*********");
+		chrome.findElement(By.xpath("//div[@id='M0:U:1::0:1']")).click();
+		Thread.sleep(3000);
+		chrome.findElement(By.xpath("//*[@id='M0:D:10::okcd']")).sendKeys(Keys.ENTER);
+		System.out.println("**********1st enter*********");
+		Thread.sleep(5000);
+
+		}
+
+		if (chrome.findElement(By.xpath("//*[@id='M0:U:1:2B265::4:11']")).getSize()!=null)
+		{
+		chrome.findElement(By.xpath("//*[@id='M0:U:1:2B265::4:11']")).sendKeys(ConstantForSapLogon.ConstantForSap.NBANK_PMT_METHOD_VALUE.getValue());   
+		Thread.sleep(3000);
+		chrome.findElement(By.xpath("//*[@id='M0:U:1:2B265::6:49']")).sendKeys(ConstantForSapLogon.ConstantForSap.NBANK_HOUSE_BANK1_VALUE.getValue());  
+		Thread.sleep(3000);
+		chrome.findElement(By.xpath("//*[@id='M0:U:1:2B265::6:57']")).sendKeys(ConstantForSapLogon.ConstantForSap.NBANK_HOUSE_BANK2_VALUE_DOMESTIC.getValue());   
+		Thread.sleep(5000);
+		chrome.findElement(By.xpath("//*[@id='M0:D:10::btn[11]']")).click();
+		Thread.sleep(5000);
+		chrome.findElement(By.xpath("//*[@id='M0:D:10::okcd']")).sendKeys(Keys.ENTER);
+		System.out.println("**********1st enter*********");
+		Thread.sleep(5000);
+
+		}
+
+		if (chrome.findElement(By.xpath("//span[@id='wnd[0]/sbar_msg-txt']")).getSize()!=null)
+		{
+		System.out.println("***********S1*********"+chrome.findElement(By.xpath("//span[@id='wnd[0]/sbar_msg-txt']")).getText());
+		S=chrome.findElement(By.xpath("//span[@id='wnd[0]/sbar_msg-txt']")).getText().split("\\s+")[1];
+		System.out.println("***********S*********"+S);
+
+		}
+
+		chrome.close();
 
 
 		WiniumDriver driver=null;
@@ -198,163 +364,222 @@ public class LsmwProjectRelease {
 					action.moveToElement(driver.findElement(By.className(ConstantForSapLogon.ConstantForSap.LSMW_EDIT.getValue())));
                     ////////////////////////////////////////////////////////////////////////////////////////////////
 					
-					demo.simulateClipBoard(ConstantForSapLogon.ConstantForSap.LSMW_CJ20N.getValue(),robot);
+					demo.simulateClipBoard(ConstantForSapLogon.ConstantForSap.F110_TCODE.getValue(),robot);
 
 					robot.keyPress(KeyEvent.VK_ENTER);
-
+					demo.simulateClipBoard(ConstantForSapLogon.ConstantForSap.F110_TCODE.getValue(),robot);
 
 					Thread.sleep(6000);
 					//*************Press Tab*********
-					
-					pressTab(robot,10);
+					demo.simulateClipBoard(getsysdate(),robot);
+					pressTab(robot,1);
+					Thread.sleep(2000);
+					Random rand = new Random();
+
+			        int n = rand.nextInt(50) + 1;
+			        String str = Integer.toString(n);
+					demo.simulateClipBoard("T"+str,robot);
+					pressTab(robot,1);
+					robot.keyPress(KeyEvent.VK_RIGHT);
 					Thread.sleep(2000);
 					
-					robot.keyPress(KeyEvent.VK_ENTER);
-					Thread.sleep(2000);
-					robot.keyPress(KeyEvent.VK_DOWN);
-					Thread.sleep(1000);
 					robot.keyPress(KeyEvent.VK_ENTER);
 					Thread.sleep(5000);
+					pressTab(robot,4);
+					demo.simulateClipBoard("CP01",robot);
+					Thread.sleep(2000);
+					pressTab(robot,1);
+					Thread.sleep(2000);
+					demo.simulateClipBoard("P",robot);
+					Thread.sleep(2000);
+					pressTab(robot,1);
+					Thread.sleep(2000);
+					demo.simulateClipBoard("31.03.2019",robot);
+					Thread.sleep(2000);
+					pressTab(robot,7);
+					Thread.sleep(2000);
+					demo.simulateClipBoard("811502",robot);
+					Thread.sleep(2000);
+					pressTab(robot,1);
+					Thread.sleep(2000);
+					robot.keyPress(KeyEvent.VK_CONTROL);
+					robot.keyPress(KeyEvent.VK_SLASH);
+					robot.keyRelease(KeyEvent.VK_SLASH);
+					robot.keyRelease(KeyEvent.VK_CONTROL);
+					Thread.sleep(2000);
+					robot.keyPress(KeyEvent.VK_SHIFT);
+					robot.keyPress(KeyEvent.VK_TAB);
+					robot.keyRelease(KeyEvent.VK_TAB);
+					robot.keyRelease(KeyEvent.VK_SHIFT);
+					Thread.sleep(2000);
+					robot.keyPress(KeyEvent.VK_LEFT);
+					Thread.sleep(2000);
+					pressTab(robot,4);
+					Thread.sleep(2000);
+					robot.keyPress(KeyEvent.VK_RIGHT);
+					Thread.sleep(2000);
+					robot.keyPress(KeyEvent.VK_ENTER);
+					Thread.sleep(2000);
+					pressTab(robot,2);
+					Thread.sleep(2000);
+					robot.keyPress(KeyEvent.VK_UP);
+					Thread.sleep(2000);
+					robot.keyPress(KeyEvent.VK_F4);
+					Thread.sleep(2000);
+					/*robot.keyPress(KeyEvent.VK_SHIFT);
+					robot.keyPress(KeyEvent.VK_TAB);
+					robot.keyRelease(KeyEvent.VK_TAB);
+					robot.keyRelease(KeyEvent.VK_SHIFT);*/
+					Thread.sleep(2000);
+					robot.keyPress(KeyEvent.VK_ENTER);
+					Thread.sleep(3000);
+					robot.keyPress(KeyEvent.VK_DOWN);
+					Thread.sleep(2000);
+					//pressTab(robot,2);
+					Thread.sleep(2000);
+					//provide the Document no here
+					demo.simulateClipBoard(S,robot);
+					Thread.sleep(2000);
+					robot.keyPress(KeyEvent.VK_CONTROL);
+					robot.keyPress(KeyEvent.VK_SLASH);
+					robot.keyRelease(KeyEvent.VK_SLASH);
+					robot.keyRelease(KeyEvent.VK_CONTROL);
+					Thread.sleep(2000);
+					robot.keyPress(KeyEvent.VK_SHIFT);
+					robot.keyPress(KeyEvent.VK_TAB);
+					robot.keyRelease(KeyEvent.VK_TAB);
+					robot.keyRelease(KeyEvent.VK_SHIFT);
+					Thread.sleep(2000);
+					robot.keyPress(KeyEvent.VK_LEFT);
+					Thread.sleep(2000);
+					pressTab(robot,2);
+					Thread.sleep(2000);
+					robot.keyPress(KeyEvent.VK_RIGHT);
+					Thread.sleep(2000);
+					robot.keyPress(KeyEvent.VK_ENTER);
+					Thread.sleep(2000);
+					pressTab(robot,1);
+					
+					
+					robot.keyPress(KeyEvent.VK_SPACE);
+					Thread.sleep(2000);
+					robot.keyPress(KeyEvent.VK_DOWN);
+					Thread.sleep(2000);
+					
+					
+					robot.keyPress(KeyEvent.VK_DOWN);
+					Thread.sleep(2000);
+					
+					robot.keyPress(KeyEvent.VK_SPACE);
+					Thread.sleep(2000);
+					robot.keyPress(KeyEvent.VK_DOWN);
+					Thread.sleep(2000);
+					
+					robot.keyPress(KeyEvent.VK_SPACE);
+					Thread.sleep(2000);
+					pressTab(robot,1);
+					demo.simulateClipBoard("811502",robot);
+					
+					robot.keyPress(KeyEvent.VK_CONTROL);
+					robot.keyPress(KeyEvent.VK_SLASH);
+					robot.keyRelease(KeyEvent.VK_SLASH);
+					robot.keyRelease(KeyEvent.VK_CONTROL);
+					Thread.sleep(2000);
+					robot.keyPress(KeyEvent.VK_SHIFT);
+					robot.keyPress(KeyEvent.VK_TAB);
+					robot.keyRelease(KeyEvent.VK_TAB);
+					robot.keyRelease(KeyEvent.VK_SHIFT);
+					Thread.sleep(2000);
+					robot.keyPress(KeyEvent.VK_LEFT);
+					Thread.sleep(2000);
+					pressTab(robot,2);
+					Thread.sleep(2000);
+					robot.keyPress(KeyEvent.VK_RIGHT);
+					Thread.sleep(2000);
+
+					robot.keyPress(KeyEvent.VK_ENTER);
+					Thread.sleep(2000);
+					pressTab(robot,1);
+					Thread.sleep(2000);
+					demo.simulateClipBoard("PRINT",robot);
+					Thread.sleep(2000);
+					robot.keyPress(KeyEvent.VK_CONTROL);
+					robot.keyPress(KeyEvent.VK_SLASH);
+					robot.keyRelease(KeyEvent.VK_SLASH);
+					robot.keyRelease(KeyEvent.VK_CONTROL);
+					Thread.sleep(2000);
+					robot.keyPress(KeyEvent.VK_SHIFT);
+					robot.keyPress(KeyEvent.VK_TAB);
+					robot.keyRelease(KeyEvent.VK_TAB);
+					robot.keyRelease(KeyEvent.VK_SHIFT);
+					Thread.sleep(2000);
+					robot.keyPress(KeyEvent.VK_LEFT);
+					Thread.sleep(2000);
+					pressTab(robot,3);
+					Thread.sleep(2000);
+					//for status tab visit and save 
+					robot.keyPress(KeyEvent.VK_LEFT);
+					Thread.sleep(2000);
+					robot.keyPress(KeyEvent.VK_LEFT);
+					Thread.sleep(2000);
+					robot.keyPress(KeyEvent.VK_LEFT);
+					Thread.sleep(2000);
+					robot.keyPress(KeyEvent.VK_LEFT);
+					Thread.sleep(2000);
+					robot.keyPress(KeyEvent.VK_ENTER);
+					Thread.sleep(2000);
+					robot.keyPress(KeyEvent.VK_ENTER);
+					Thread.sleep(2000);
+					robot.keyPress(KeyEvent.VK_SHIFT);
+					robot.keyPress(KeyEvent.VK_F1);
+					robot.keyRelease(KeyEvent.VK_F1);
+					robot.keyRelease(KeyEvent.VK_SHIFT);
+					Thread.sleep(2000);
+					pressTab(robot,1);
+					Thread.sleep(2000);
+					robot.keyPress(KeyEvent.VK_SPACE);
+					Thread.sleep(2000);
+					if(driver.findElement(By.name(ConstantForSapLogon.ConstantForSap.F110_SCHEDULE.getValue())).getSize()!=null)
+					{
+						driver.findElement(By.name(ConstantForSapLogon.ConstantForSap.F110_SCHEDULE.getValue())).click();
+						Thread.sleep(2000);
+					}
+					Thread.sleep(2000);
+					robot.keyPress(KeyEvent.VK_SHIFT);
+					robot.keyPress(KeyEvent.VK_F2);
+					robot.keyRelease(KeyEvent.VK_F2);
+					robot.keyRelease(KeyEvent.VK_SHIFT);
+					Thread.sleep(2000);
+					robot.keyPress(KeyEvent.VK_F7);
+					Thread.sleep(2000);
+					pressTab(robot,4);
+					Thread.sleep(2000);
+					robot.keyPress(KeyEvent.VK_SPACE);
+					Thread.sleep(2000);
+					if(driver.findElement(By.name(ConstantForSapLogon.ConstantForSap.F110_SCHEDULE.getValue())).getSize()!=null)
+					{
+						driver.findElement(By.name(ConstantForSapLogon.ConstantForSap.F110_SCHEDULE.getValue())).click();
+						Thread.sleep(6000);
+					}
+					robot.keyPress(KeyEvent.VK_SHIFT);
+					robot.keyPress(KeyEvent.VK_F2);
+					robot.keyRelease(KeyEvent.VK_F2);
+					robot.keyRelease(KeyEvent.VK_SHIFT);
+					
+					Thread.sleep(4000);
 					/*robot.keyPress(KeyEvent.VK_SHIFT);
 					robot.keyPress(KeyEvent.VK_F1);
 					robot.keyRelease(KeyEvent.VK_F1);
 					robot.keyRelease(KeyEvent.VK_DOWN);
 					Thread.sleep(3000);
 					robot.keyPress(KeyEvent.VK_F12);*/
-					Thread.sleep(6000);
-					pressTab(robot,13);
-					Thread.sleep(4000);
-					projectName=ConstantForSapLogon.ConstantForSap.LSMW_CJ20N_PROJECTNAME.getValue();
-					demo.simulateClipBoard(projectName,robot);
-					robot.keyPress(KeyEvent.VK_TAB);
-					Thread.sleep(1000);
-					demo.simulateClipBoard(ConstantForSapLogon.ConstantForSap.LSMW_CJ20N_PROJECTNAME.getValue(),robot);
-				
-					Thread.sleep(1000);
-					pressTab(robot,5);
-					Thread.sleep(2000);
-					robot.keyPress(KeyEvent.VK_F4);
-					Thread.sleep(1000);
-					
-					robot.keyPress(KeyEvent.VK_DOWN);
-					Thread.sleep(1000);
-					robot.keyPress(KeyEvent.VK_DOWN);
-					Thread.sleep(1000);
-					robot.keyPress(KeyEvent.VK_DOWN);
-					Thread.sleep(1000);
-					robot.keyPress(KeyEvent.VK_DOWN);
-					Thread.sleep(1000);
-					robot.keyPress(KeyEvent.VK_ENTER);
-					Thread.sleep(3000);
-					pressTab(robot,4);
-					demo.simulateClipBoard(ConstantForSapLogon.ConstantForSap.LSMW_CJ20N_INVESTMENT_PROFILENAME.getValue(),robot);
-					robot.keyPress(KeyEvent.VK_ENTER);
-					Thread.sleep(5000);
-					
-					pressTab(robot,1);
-					demo.simulateClipBoard(ConstantForSapLogon.ConstantForSap.LSMW_SUBPROJECT.getValue(),robot);
-					robot.keyPress(KeyEvent.VK_ENTER);
-					Thread.sleep(5000);
-					robot.keyPress(KeyEvent.VK_CONTROL);
-					robot.keyPress(KeyEvent.VK_S);
-					robot.keyRelease(KeyEvent.VK_S);
-					robot.keyRelease(KeyEvent.VK_CONTROL);
-					Thread.sleep(5000);
-					
-					demo.modifyBeforeUpload(projectName);
+										
 
-					demo.Upload(driver);
-					Thread.sleep(3000);
-					robot.keyPress(KeyEvent.VK_TAB);
-					Thread.sleep(1000);
-					robot.keyPress(KeyEvent.VK_TAB);
-					Thread.sleep(1000);
-					robot.keyPress(KeyEvent.VK_TAB);
-					Thread.sleep(1000);
-					robot.keyPress(KeyEvent.VK_TAB);
-					Thread.sleep(4000);
-					driver.close();
-
-					System.setProperty("webdriver.chrome.driver",System.getProperty("user.dir")+"\\chromedriver.exe");
-					WebDriver chrome= new ChromeDriver();
-					
-					chrome.manage().window().maximize();
-					chrome.navigate().to(ConstantForSapLogon.ConstantForSap.SAP_FRZ_URL.getValue());
-					Thread.sleep(4000);
-				
-					if (chrome.findElement(By.xpath("//*[@id='sap-user']")).getSize()!=null) {
-						
-					
-						chrome.findElement(By.xpath("//*[@id='sap-user']")).sendKeys(ConstantForSapLogon.ConstantForSap.LSMW_USERID_FRZ.getValue());
-						Thread.sleep(2000);
-						chrome.findElement(By.xpath("//*[@id='sap-password']")).sendKeys(ConstantForSapLogon.ConstantForSap.LSMW_PASSWORD_FRZ.getValue());
-				
-						chrome.findElement(By.xpath("//*[@id='LOGON_BUTTON-txt']/span")).click();
-						Thread.sleep(2000);
-						
-				try {
 					
 				
 					
-					if (chrome.findElement(By.xpath(
-					"//*[@id='SESSION_QUERY_CONTINUE_BUTTON-txt']/span")).getSize()!=null) {
-						
-						chrome.findElement(By.xpath("//*[@id='SESSION_QUERY_CONTINUE_BUTTON-txt']/span")).click();
-					
-						Thread.sleep(4000);
-					}
-				}
-				catch(Exception exc)
-				{
-					exc.printStackTrace();
-				}
-					
-					chrome.switchTo().frame(0);
-					Thread.sleep(2000);
-					chrome.switchTo().frame("ITSFRAME1");
-					System.out.println("***********Switched Frame ITSFRAME1*********");
-					Thread.sleep(6000);
-					
-					if (chrome.findElement(By.xpath("//*[@id='M0:D:10::okcd']")).getSize()!=null) {
-						
-					}
-					chrome.findElement(By.xpath("//*[@id='M0:D:10::okcd']")).sendKeys(ConstantForSapLogon.ConstantForSap.LSMW_CJ20N.getValue());
-					Thread.sleep(2000);
-					// getDriver().findElement(By.xpath("//*[@name='ToolbarOkCode']")).sendKeys(Keys.);
-					chrome.findElement(By.xpath("//*[@id='M0:D:10::okcd']")).sendKeys(Keys.ENTER);
-					Thread.sleep(7000);
-					if(chrome.findElement(By.xpath(ConstantForSapLogon.ConstantForSap.SAP_WEB_OPEN_ICON.getValue())).getSize()!=null)
-					{
-						chrome.findElement(By.xpath(ConstantForSapLogon.ConstantForSap.SAP_WEB_OPEN_ICON.getValue())).click();
-						Thread.sleep(4000);
-					}
-					
-					chrome.switchTo().defaultContent();
-					Thread.sleep(3000);
-					chrome.switchTo().frame("URLSPW-0");
-					Thread.sleep(3000);
-					chrome.findElement(By.xpath("//*[@id='M1:U:::0:21']")).sendKeys(projectName);
-					Thread.sleep(2000);
-					chrome.findElement(By.xpath("//*[@id='M1:D:13::btn[0]']")).click();
-					Thread.sleep(5000);
-					chrome.switchTo().defaultContent();
-					Thread.sleep(3000);
-					chrome.switchTo().frame(1);
-					Thread.sleep(3000);
-					chrome.switchTo().frame("ITSFRAME1");
-					System.out.println("***********Switched Frame ITSFRAME1*********");
-					Thread.sleep(3000);
-					 relStatus=chrome.findElement(By.xpath("//*[@id='M0:U:1:4:1:2B256:1::1:17']")).getAttribute("value");
-					if(relStatus.equals("REL"))
-					{
-						System.out.println("The project has been Released ");
-						status="PASS";
-					}
-					
-					
-					} 
-					chrome.close();
 			}
+				
 				
 			}
 			//driver.close();
@@ -379,7 +604,7 @@ public class LsmwProjectRelease {
 		//System.out.print(isProcessRunning(processName));
 
 		try {
-			String processName = "Winium.Desktop.Driver.exe";
+			String processName = "notepad.exe";
 			if (isProcessRunning(processName)) {
 
 				killProcess(processName);
@@ -390,8 +615,9 @@ public class LsmwProjectRelease {
 		}
 
 	}
+	}
 
-	public void modifyBeforeUpload(String projectName)
+	/*public void modifyBeforeUpload(String projectName)
 	{
 
 		try {
@@ -428,7 +654,7 @@ public class LsmwProjectRelease {
 		}
 
 	}
-
+*/
 
 
 	public void simulateClipBoard(String tobeCopied, Robot robot) {
@@ -451,7 +677,7 @@ public class LsmwProjectRelease {
 
 	}
 
-	public String generateRandKey() {
+	/*public String generateRandKey() {
 		Date date = new Date();
 		DateFormat df = new SimpleDateFormat("MMHHmmss");
 
@@ -461,9 +687,9 @@ public class LsmwProjectRelease {
 		System.out.println("Random key" + randkey);
 		return randkey;
 
-	}
+	}*/
 
-	public String performTaxInfoExtraction(WiniumDriver driver,String filename)
+	/*public String performTaxInfoExtraction(WiniumDriver driver,String filename)
 	{
 		String extractDate="";
 		try 
@@ -594,7 +820,7 @@ public class LsmwProjectRelease {
 
 	}
 
-
+*/
 
 	private static final String TASKLIST = "tasklist";
 	private static final String KILL = "taskkill /F /IM ";
@@ -618,7 +844,7 @@ public class LsmwProjectRelease {
 	}
 
 	public void Upload(WiniumDriver driver)
-	{
+	{/*
 
 
 
@@ -1089,6 +1315,7 @@ public class LsmwProjectRelease {
 
 			
 		}
+		
 
 
 		catch (Exception e1) {
@@ -1107,7 +1334,7 @@ public class LsmwProjectRelease {
 
 
 
-	}
+	*/}
 
 
 
@@ -1117,7 +1344,13 @@ public class LsmwProjectRelease {
 
 
 	}
-	
+	public static String getsysdate()
+	{
+		DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+		Date date = new Date();
+		System.out.println("***********date*****"+dateFormat.format(date));
+		return dateFormat.format(date);
+	}
 	public static void pressTab(Robot robot,int count)
 	{
 		for(int i=1;i<=count;i++)

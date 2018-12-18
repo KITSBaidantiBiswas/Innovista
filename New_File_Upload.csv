@@ -1,7 +1,0 @@
-Header Or Line Item,Line Item Counter,Document Type,Document Date,Posting Date,Reference,Header Text,Currency,Company Code,Ledger,Exchange Rate,Account Type,Posting Key,Account,Amount,Quantity,Company ID of Trading Partner,Transaction Type,Special Gl Indicator,Cost Center,Profit Center,WBS,VAT Code,Assignment Field,Long Text,Baseline Date,Payment Term,Payment Method,Payment Block
-LINEITEM,,BKPF-BLART,BKPF-BLDAT,BKPF-BUDAT,BKPF-XBLNR,BKPF-BKTXT,BKPF-WAERS,BKPF-BUKRS,BKPF-LDGRP,BSEG-KURSF,BSEG-KOART,TBSL-BSCHL,RF05A-NEWKO,BSEG-WRBTR,BSEG-MENGE,BSEG-VBUND,BSEG-BEWAR,BSEG_UMSKZ,COBL-KOSTL,COBL-PRCTR,COBL-PS_POSID,BSEG-MWSKZ,BSEG-ZUONR,BSEG-SGTXT,BSEG-ZFBDT,BSEG-ZTERM,BSEG-ZLSCH,BSEG-ZLSPR
-NUMBER,NUMBER,CHAR,CHAR,CHAR,CHAR,CHAR,CUKY,NUMBER,CHAR,DEC,CHAR,CHAR,CHAR,NUMBER,QUAN,CHAR,CHAR,CHAR,CHAR,CHAR,CHAR,CHAR,CHAR,CHAR,CHAR,CHAR,CHAR,CHAR
-3,3,2,8,8,16,25,5,4,4,9,1,2,10,13,13,6,3,1,10,10,24,2,18,50,8,4,1,1
-H,,DG,06.12.2018,06.12.2018,TEST-152723,Header Text_1,PLN,CP01,,,,,,,,,,,,,,,,,,,,
-I,1,,,,,,,,,,C,11,10069,1000,,,,,,,,,Assignment,Test- VAT,06.12.2018,,,
-I,2,,,,,,,,,,D,40,78582000,1000,,,,,1517,1517,,,Assignment,Test- VAT,,,,

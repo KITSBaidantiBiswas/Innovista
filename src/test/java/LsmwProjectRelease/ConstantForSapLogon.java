@@ -82,6 +82,47 @@ public class ConstantForSapLogon {
 		SAP_WEB_OPEN_ICON("//*[@title='Open ']"),
 		LSMW_PROJECT_DOES_NOT_EXISTS("Project CP01ABCDZYX123 does not exist"),
 		LSMW_FICO_JOURNAL("/nzfi004"),
+		LSMW_PROJECT("modification"),
+		F110_TCODE("/nf110"),
+		F110_SCHEDULE("Schedule"),
+		NBANK_VENDOR("//input[@id='M0:U:1:2B264::0:16']"),
+		NBANK_VENDOR_VALUE("509298"),
+	    NBANK_INVOICE_DATE("//input[@id='M0:U:1:2B264::1:16']"),
+		NBANK_REFRENCE_NO("//input[@id='M0:U:1:2B264::1:47']"),
+		NBANK_REFRENCE_NO_VALUE("TEST_9"),
+		NBANK_VENDOR_VALUE_FOREIGN("811502"),
+
+		NBANK_AMOUNT("//input[@id='M0:U:1:2B264::4:16']"),
+		NBANK_AMOUNT_VALUE("100"),
+
+		NBANK_CURRENCY_KEY("//input[@id='M0:U:1:2B264::4:36']"),
+		NBANK_CURRENCY_KEY_FOREIGN("GBP"),
+
+		NBANK_GL_ACCOUNT("//input[starts-with(@id,'tbl')][contains(@id,'[1,2]')]"),
+		NBANK_GL_ACCOUNT_VALUE("41700000"),
+
+		NBANK_AMMOUNT_IN_DOC("//input[starts-with(@id,'tbl')][contains(@id,'[1,5]')]"),
+		NBANK_AMMOUNT_IN_DOC_VALUE("100"),
+
+		NBANK_PROFIT_CENTER("//input[starts-with(@id,'tbl')][contains(@id,'[1,28]')]"),
+		NBANK_PROFIT_CENTER_VALUE("CP011524OP"),
+
+		NBANK_PAYMENT_TAB("//div[@id='M0:U:1::0:1']"),
+		NBANK_PMT_METHOD("//*[@id='M0:U:1:2B265::4:11']"),
+		NBANK_PMT_METHOD_VALUE("P"),
+
+		NBANK_HOUSE_BANK1("//*[@id='M0:U:1:2B265::6:49']"),
+		NBANK_HOUSE_BANK1_VALUE("BRE1"),
+
+		NBANK_HOUSE_BANK2("//*[@id='M0:U:1:2B265::6:57']"),
+		NBANK_HOUSE_BANK2_VALUE("00002"),
+		NBANK_HOUSE_BANK2_VALUE_DOMESTIC("00001"),
+
+		NBANK_DOCUMENT_NO("//span[@id='wnd[0]/sbar_msg-txt']"),
+		NBANK_RIGHT_SIDE_ARROW("//div[@id='M0:U:4:1_hscroll-Nxt']"),
+		NBANK_DOCUMENT_NO_VALIDATION_MESSEGE("//span[@id='wnd[0]/sbar_msg-txt']"),
+		NBANK_TEXT_FIELD("//input[@id='M0:U:1:2B264::6:16']"),
+		NBANK_POST("//*[@id='M0:D:10::btn[11]']"),
 		
 
 

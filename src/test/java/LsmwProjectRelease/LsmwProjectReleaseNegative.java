@@ -41,7 +41,7 @@ import LsmwProjectRelease.ConstantForSapLogon;
 
 public class LsmwProjectReleaseNegative {
 
-	public  void Release(String opco,String env) throws MalformedURLException, InterruptedException {
+	public  void Execute(String opco,String env) throws MalformedURLException, InterruptedException {
 		//\\vf0013.gha.kfplc.com\Shared\Group\NWBC_Config\FullSAPUILandscape.xml
 		ReportGeneration report=new ReportGeneration();
 		String column1[]={"Scenario Name","Project No","Validated","Status"};

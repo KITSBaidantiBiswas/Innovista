@@ -42,16 +42,10 @@ import org.openqa.selenium.winium.WiniumDriver;
 import LsmwProjectRelease.ConstantForSapLogon;
 
 public class Controller {
-	static String opco1;
-	static String env1;
+	static String opco1="";
+	static String env1="";
 
-	public Controller(String opco, String env) {
-		
-		opco=opco1;
-		env=env1;
-		System.out.println("the values are"+opco+env);
-		
-	}
+
 
 	public static void main(String[] args) throws MalformedURLException, InterruptedException {
 		opco1=args[0].toUpperCase();
@@ -61,25 +55,43 @@ public class Controller {
 		String type=args[2];
 		String className="";
 		String classPath="LsmwProjectRelease.";
+		String extraType="";
 		if(type.length()>0)
 		{
-			 className="LsmwProject"+type;
-			 classPath=classPath+className;
-			 try {
-			
-			 
-			 Class<?> refer = Class.forName(classPath);
-				 Object o=refer.newInstance();
-				 Method[] method=refer.getDeclaredMethods();
-				 for(Method m:method)
-				 {
-					 if(m.getName().startsWith("Release"))
-					 {
-						 System.out.println("Method Name");
-						 m.invoke(o,opco1,env1);
-						 break;
-					 }
-				 }
+			if(type.contains(":"))
+			{
+				className="LsmwProject"+type.split(":")[0];
+				extraType=type.split(":")[1];
+			}
+			else
+			{
+				className="LsmwProject"+type;
+			}
+
+			classPath=classPath+className;
+			try {
+
+
+				Class<?> refer = Class.forName(classPath);
+				Object o=refer.newInstance();
+				Method[] method=refer.getDeclaredMethods();
+				for(Method m:method)
+				{
+					if(m.getName().equals("Execute"))
+					{
+						System.out.println("Method Name");
+						if(extraType.length()>0)
+						{
+							m.invoke(o,opco1,env1,extraType);
+						}
+						else
+						{
+							m.invoke(o,opco1,env1);
+						}
+						
+						break;
+					}
+				}
 			} catch (ClassNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -96,14 +108,14 @@ public class Controller {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
-			 
-			 
-		
-			
-			
+
+
+
+
+
+
 		}
-/*		{
+		/*		{
 			LSMWProjectRelease release=new LSMWProjectRelease();
 
 			release.Release(opco,env);

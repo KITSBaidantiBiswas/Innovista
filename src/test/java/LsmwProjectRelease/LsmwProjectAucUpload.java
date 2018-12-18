@@ -43,7 +43,7 @@ import LsmwProjectRelease.ConstantForSapLogon;
 public class LsmwProjectAucUpload {
 	
 
-	public  void Release(String opco,String env) throws MalformedURLException, InterruptedException {
+	public  void Execute(String opco,String env) throws MalformedURLException, InterruptedException {
 		System.out.println("Im here"+opco+env);
 		//\\vf0013.gha.kfplc.com\Shared\Group\NWBC_Config\FullSAPUILandscape.xml
 		ReportGeneration report=new ReportGeneration();
@@ -67,8 +67,8 @@ public class LsmwProjectAucUpload {
 		Runtime rtt=Runtime.getRuntime();
 		try {
 
-			rtt.exec(System.getProperty("user.dir")+"\\Winium.Desktop.Driver.exe");
-			//rtt.exec("C:\\downloads\\ZenEssential-ZenEssential\\POI\\Winium.Desktop.Driver.exe");
+			//rtt.exec(System.getProperty("user.dir")+"\\Winium.Desktop.Driver.exe");
+			rtt.exec("C:\\downloads\\ZenEssential-ZenEssential\\POI\\Winium.Desktop.Driver.exe");
 
 		} catch (IOException e3) {
 			// TODO Auto-generated catch block
@@ -1256,6 +1256,7 @@ public class LsmwProjectAucUpload {
 	public static void killProcess(String serviceName) throws Exception {
 
 		Runtime.getRuntime().exec(KILL + serviceName);
+		System.out.println("Killed"+serviceName);
 
 
 	}

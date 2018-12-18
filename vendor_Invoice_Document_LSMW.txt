@@ -1,0 +1,2 @@
+Accounting Document Number  	Company Code	Fiscal Year	Tax Reporting Date
+1900195588	CP01	2018	$x

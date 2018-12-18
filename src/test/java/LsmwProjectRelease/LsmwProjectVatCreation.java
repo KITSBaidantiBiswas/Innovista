@@ -29,25 +29,19 @@ import java.util.Map;
 
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.winium.DesktopOptions;
 import org.openqa.selenium.winium.WiniumDriver;
 
-import LsmwProjectRelease.ConstantForSapLogon;
+public class LsmwProjectVatCreation {
 
-public class LsmwProjectRelease {
-
-	public  void Execute(String opco,String env) throws MalformedURLException, InterruptedException {
+	public  void Execute(String opco,String env,String invoiceType) throws MalformedURLException, InterruptedException {
 		//\\vf0013.gha.kfplc.com\Shared\Group\NWBC_Config\FullSAPUILandscape.xml
 		ReportGeneration report=new ReportGeneration();
-		String column1[]={"Scenario Name","Project No","Sap Project Status","Validated","Status"};
+		String column1[]={"Scenario Name","Invoice Type","Document No","Validation","Status"};
 		String comment="";
 		String status="FAIL";
-		String relStatus="";
 		try {
 			String processName = "notepad.exe";
 			if (isProcessRunning(processName)) {
@@ -57,12 +51,11 @@ public class LsmwProjectRelease {
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-
 		}
 		
 
 		Runtime rtt=Runtime.getRuntime();
-	try {
+		try {
 
 			rtt.exec(System.getProperty("user.dir")+"\\Winium.Desktop.Driver.exe");
 			//"C:\\downloads\\Winium.Desktop.Driver\\Winium.Desktop.Driver.exe");
@@ -72,12 +65,13 @@ public class LsmwProjectRelease {
 			e3.printStackTrace();
 		}///*****************************************Start Driver**************************************
 
-	
-		
+		/**/
+		//String invoiceType=args[2];
+		System.out.println("env::"+invoiceType);
 		int rowNo=0;
 
 
-		LsmwProjectRelease demo=new LsmwProjectRelease();
+		LsmwProjectVatCreation demo=new LsmwProjectVatCreation();
 
 		//**************************Retrieve Opco and Environment Specific Data***************************
 
@@ -85,8 +79,13 @@ public class LsmwProjectRelease {
 
 		Map<String,String> map=logon.valueSetter(opco, env) ;
 
-		String projectName="";
-		File file=new File(System.getProperty("user.dir")+"\\Test_File_New1.txt");
+		/*String FilePath=System.getProperty("user.dir")+map.get("LSMW_EXCELNAME");
+		System.out.println("Excel file path::"+FilePath);*/
+		//*********************************Retrieve Total Row No**************************************************
+
+		//rowNo=demo.readExcelData(FilePath);
+
+		File file=new File(System.getProperty("user.dir")+"\\Result\\BeforeTaxDatechange.txt");
 		try
 		{
 
@@ -95,7 +94,7 @@ public class LsmwProjectRelease {
 
 				if(file.delete())
 				{
-					System.out.println("TEXT FILE DELETED");
+					System.out.println("TEXT FILE of before tax date DELETED");
 				}
 
 			}
@@ -104,7 +103,26 @@ public class LsmwProjectRelease {
 		{
 			e.getMessage();
 		}
-		File file1=new File(System.getProperty("user.dir")+"\\Result\\Report.xlsx");
+		File file3=new File(System.getProperty("user.dir")+"\\Result\\AfterTaxDatechange.txt");
+		try
+		{
+
+			if(file3.exists())
+			{	
+
+				if(file3.delete())
+				{
+					System.out.println("TEXT FILE of after Tax date  DELETED");
+				}
+
+			}
+		}
+		catch(Exception e)
+		{
+			e.getMessage();
+		}
+
+		File file1=new File(System.getProperty("user.dir")+"\\Test_File_New1.txt");
 		try
 		{
 
@@ -113,7 +131,7 @@ public class LsmwProjectRelease {
 
 				if(file1.delete())
 				{
-					System.out.println("Excel FILE DELETED");
+					System.out.println(" New modified TEXT FILE DELETED");
 				}
 
 			}
@@ -123,10 +141,11 @@ public class LsmwProjectRelease {
 			e.getMessage();
 		}
 
+		////Text file preparation///////////
 
-
+		//String ProjectName= demo.extractProjectNumber(); 
+		// System.out.println("The project name is::"+ProjectName);
 		WiniumDriver driver=null;
-		
 
 		DesktopOptions option=new DesktopOptions();
 		String path=ConstantForSapLogon.ConstantForSap.SAP_LOGON_PATH.getValue();
@@ -161,7 +180,7 @@ public class LsmwProjectRelease {
 				robot.keyPress(KeyEvent.VK_TAB);
 				robot.keyRelease(KeyEvent.VK_TAB);
 
-				Thread.sleep(3000);
+				Thread.sleep(10000);
 
 
 
@@ -186,7 +205,6 @@ public class LsmwProjectRelease {
 					e1.getMessage();
 				}
 
-				Thread.sleep(10000);
 
 
 				if(driver.findElement(By.name(ConstantForSapLogon.ConstantForSap.LSMW_EDIT.getValue())).getSize()!=null)
@@ -196,72 +214,30 @@ public class LsmwProjectRelease {
 
 					Actions action=new Actions(driver);
 					action.moveToElement(driver.findElement(By.className(ConstantForSapLogon.ConstantForSap.LSMW_EDIT.getValue())));
-                    ////////////////////////////////////////////////////////////////////////////////////////////////
-					
-					demo.simulateClipBoard(ConstantForSapLogon.ConstantForSap.LSMW_CJ20N.getValue(),robot);
+
+
+
+					demo.simulateClipBoard(ConstantForSapLogon.ConstantForSap.LSMW_SAPLOGON_TCODE.getValue(),robot);
 
 					robot.keyPress(KeyEvent.VK_ENTER);
 
 
 					Thread.sleep(6000);
-					//*************Press Tab*********
-					
-					pressTab(robot,10);
+
+					demo.simulateClipBoard(map.get("LSMW_PROJECT"),robot);
 					Thread.sleep(2000);
-					
-					robot.keyPress(KeyEvent.VK_ENTER);
-					Thread.sleep(2000);
-					robot.keyPress(KeyEvent.VK_DOWN);
-					Thread.sleep(1000);
-					robot.keyPress(KeyEvent.VK_ENTER);
-					Thread.sleep(5000);
-					/*robot.keyPress(KeyEvent.VK_SHIFT);
-					robot.keyPress(KeyEvent.VK_F1);
-					robot.keyRelease(KeyEvent.VK_F1);
-					robot.keyRelease(KeyEvent.VK_DOWN);
-					Thread.sleep(3000);
-					robot.keyPress(KeyEvent.VK_F12);*/
-					Thread.sleep(6000);
-					pressTab(robot,13);
-					Thread.sleep(4000);
-					projectName=ConstantForSapLogon.ConstantForSap.LSMW_CJ20N_PROJECTNAME.getValue();
-					demo.simulateClipBoard(projectName,robot);
 					robot.keyPress(KeyEvent.VK_TAB);
-					Thread.sleep(1000);
-					demo.simulateClipBoard(ConstantForSapLogon.ConstantForSap.LSMW_CJ20N_PROJECTNAME.getValue(),robot);
-				
-					Thread.sleep(1000);
-					pressTab(robot,5);
-					Thread.sleep(2000);
-					robot.keyPress(KeyEvent.VK_F4);
-					Thread.sleep(1000);
-					
-					robot.keyPress(KeyEvent.VK_DOWN);
-					Thread.sleep(1000);
-					robot.keyPress(KeyEvent.VK_DOWN);
-					Thread.sleep(1000);
-					robot.keyPress(KeyEvent.VK_DOWN);
-					Thread.sleep(1000);
-					robot.keyPress(KeyEvent.VK_DOWN);
-					Thread.sleep(1000);
-					robot.keyPress(KeyEvent.VK_ENTER);
-					Thread.sleep(3000);
-					pressTab(robot,4);
-					demo.simulateClipBoard(ConstantForSapLogon.ConstantForSap.LSMW_CJ20N_INVESTMENT_PROFILENAME.getValue(),robot);
-					robot.keyPress(KeyEvent.VK_ENTER);
-					Thread.sleep(5000);
-					
-					pressTab(robot,1);
 					demo.simulateClipBoard(ConstantForSapLogon.ConstantForSap.LSMW_SUBPROJECT.getValue(),robot);
+					Thread.sleep(2000);
+					robot.keyPress(KeyEvent.VK_TAB);
+					demo.simulateClipBoard(ConstantForSapLogon.ConstantForSap.LSMW_OBJECT.getValue(),robot);
+					Thread.sleep(2000);
 					robot.keyPress(KeyEvent.VK_ENTER);
-					Thread.sleep(5000);
-					robot.keyPress(KeyEvent.VK_CONTROL);
-					robot.keyPress(KeyEvent.VK_S);
-					robot.keyRelease(KeyEvent.VK_S);
-					robot.keyRelease(KeyEvent.VK_CONTROL);
-					Thread.sleep(5000);
-					
-					demo.modifyBeforeUpload(projectName);
+					Thread.sleep(10000);
+					String filename="BeforeTaxDatechange.txt";
+					String oldTaxDate=demo.performTaxInfoExtraction(driver, filename);
+					System.out.println("The old tax date::"+oldTaxDate);
+					demo.changeTaxDate(oldTaxDate,invoiceType);
 
 					demo.Upload(driver);
 					Thread.sleep(3000);
@@ -272,90 +248,46 @@ public class LsmwProjectRelease {
 					robot.keyPress(KeyEvent.VK_TAB);
 					Thread.sleep(1000);
 					robot.keyPress(KeyEvent.VK_TAB);
-					Thread.sleep(4000);
-					driver.close();
+					Thread.sleep(2000);
 
-					System.setProperty("webdriver.chrome.driver",System.getProperty("user.dir")+"\\chromedriver.exe");
-					WebDriver chrome= new ChromeDriver();
-					
-					chrome.manage().window().maximize();
-					chrome.navigate().to(ConstantForSapLogon.ConstantForSap.SAP_FRZ_URL.getValue());
-					Thread.sleep(4000);
-				
-					if (chrome.findElement(By.xpath("//*[@id='sap-user']")).getSize()!=null) {
-						
-					
-						chrome.findElement(By.xpath("//*[@id='sap-user']")).sendKeys(ConstantForSapLogon.ConstantForSap.LSMW_USERID_FRZ.getValue());
-						Thread.sleep(2000);
-						chrome.findElement(By.xpath("//*[@id='sap-password']")).sendKeys(ConstantForSapLogon.ConstantForSap.LSMW_PASSWORD_FRZ.getValue());
-				
-						chrome.findElement(By.xpath("//*[@id='LOGON_BUTTON-txt']/span")).click();
-						Thread.sleep(2000);
-						
-				try {
-					
-				
-					
-					if (chrome.findElement(By.xpath(
-					"//*[@id='SESSION_QUERY_CONTINUE_BUTTON-txt']/span")).getSize()!=null) {
-						
-						chrome.findElement(By.xpath("//*[@id='SESSION_QUERY_CONTINUE_BUTTON-txt']/span")).click();
-					
-						Thread.sleep(4000);
-					}
-				}
-				catch(Exception exc)
-				{
-					exc.printStackTrace();
-				}
-					
-					chrome.switchTo().frame(0);
+
+					demo.simulateClipBoard(ConstantForSapLogon.ConstantForSap.LSMW_SAPLOGON_TCODE.getValue(),robot);
+
+					robot.keyPress(KeyEvent.VK_ENTER);
 					Thread.sleep(2000);
-					chrome.switchTo().frame("ITSFRAME1");
-					System.out.println("***********Switched Frame ITSFRAME1*********");
-					Thread.sleep(6000);
-					
-					if (chrome.findElement(By.xpath("//*[@id='M0:D:10::okcd']")).getSize()!=null) {
-						
-					}
-					chrome.findElement(By.xpath("//*[@id='M0:D:10::okcd']")).sendKeys(ConstantForSapLogon.ConstantForSap.LSMW_CJ20N.getValue());
+
+
+					/*demo.simulateClipBoard(ConstantForSapLogon.ConstantForSap.LSMW_PROJECT.getValue(),robot);
 					Thread.sleep(2000);
-					// getDriver().findElement(By.xpath("//*[@name='ToolbarOkCode']")).sendKeys(Keys.);
-					chrome.findElement(By.xpath("//*[@id='M0:D:10::okcd']")).sendKeys(Keys.ENTER);
-					Thread.sleep(7000);
-					if(chrome.findElement(By.xpath(ConstantForSapLogon.ConstantForSap.SAP_WEB_OPEN_ICON.getValue())).getSize()!=null)
+					robot.keyPress(KeyEvent.VK_TAB);
+					demo.simulateClipBoard(ConstantForSapLogon.ConstantForSap.LSMW_SUBPROJECT.getValue(),robot);
+					Thread.sleep(2000);
+					robot.keyPress(KeyEvent.VK_TAB);
+					demo.simulateClipBoard(ConstantForSapLogon.ConstantForSap.LSMW_OBJECT.getValue(),robot);*/
+					
+					robot.keyPress(KeyEvent.VK_ENTER);
+					Thread.sleep(10000);
+					String filename1="AfterTaxDatechange.txt";
+					String changedTaxDate=demo.performTaxInfoExtraction(driver, filename1);
+					if(!changedTaxDate.equals(oldTaxDate))
 					{
-						chrome.findElement(By.xpath(ConstantForSapLogon.ConstantForSap.SAP_WEB_OPEN_ICON.getValue())).click();
-						Thread.sleep(4000);
-					}
-					
-					chrome.switchTo().defaultContent();
-					Thread.sleep(3000);
-					chrome.switchTo().frame("URLSPW-0");
-					Thread.sleep(3000);
-					chrome.findElement(By.xpath("//*[@id='M1:U:::0:21']")).sendKeys(projectName);
-					Thread.sleep(2000);
-					chrome.findElement(By.xpath("//*[@id='M1:D:13::btn[0]']")).click();
-					Thread.sleep(5000);
-					chrome.switchTo().defaultContent();
-					Thread.sleep(3000);
-					chrome.switchTo().frame(1);
-					Thread.sleep(3000);
-					chrome.switchTo().frame("ITSFRAME1");
-					System.out.println("***********Switched Frame ITSFRAME1*********");
-					Thread.sleep(3000);
-					 relStatus=chrome.findElement(By.xpath("//*[@id='M0:U:1:4:1:2B256:1::1:17']")).getAttribute("value");
-					if(relStatus.equals("REL"))
-					{
-						System.out.println("The project has been Released ");
+						System.out.println("Date changed::"+oldTaxDate+"from"+changedTaxDate);
+						
+						comment="Date changed::"+oldTaxDate+"from"+changedTaxDate;
 						status="PASS";
 					}
+					else
+					{
+						comment="Date did not change::"+oldTaxDate+"from"+changedTaxDate;
+						status="FAIL";
+					}
 					
+
+
 					
-					} 
-					chrome.close();
-			}
-				
+
+
+				} 
 			}
 			//driver.close();
 
@@ -364,11 +296,9 @@ public class LsmwProjectRelease {
 				e1.printStackTrace();
 
 			}
-			
-			
-			String reportData1[]={"Lsmw Project Release",projectName,relStatus,"The project has been Released",status};
+			String reportData1[]={"VAT Update",invoiceType,map.get("LSMW_PROJECT"),comment,status};
 
-			report.generateReport(1,column1,reportData1,"Report.xlsx");
+			report.generateReport(1,column1, reportData1, "Report.xlsx");
 
 
 
@@ -391,15 +321,29 @@ public class LsmwProjectRelease {
 
 	}
 
-	public void modifyBeforeUpload(String projectName)
+	public void changeTaxDate(String dt,String type)
 	{
 
 		try {
+			try {
+
+				SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+				Calendar c = Calendar.getInstance();
+				c.setTime(sdf.parse(dt));
+				c.add(Calendar.DATE, 1);  // number of days to add
+				dt = sdf.format(c.getTime()); 
+
+				System.out.println("***"+dt);
+				
+			} catch (ParseException e) {
+
+				e.printStackTrace();
+			}
 
 
 
 
-			File file1 = new File(System.getProperty("user.dir")+"\\project release.txt");
+			File file1 = new File(System.getProperty("user.dir")+"\\"+type+"_Invoice_Document_LSMW.txt");
 			System.out.println("the upload file:"+file1);
 			BufferedReader reader = new BufferedReader(new FileReader(file1));
 			String line = "", oldtext ="";
@@ -411,7 +355,7 @@ public class LsmwProjectRelease {
 			reader.close();
 
 
-			String newtext = oldtext.replace("$x",projectName);
+			String newtext = oldtext.replace("$x",dt);
 
 
 			System.out.println(newtext);
@@ -420,7 +364,6 @@ public class LsmwProjectRelease {
 					System.getProperty("user.dir")+"\\Test_File_New1.txt");
 
 			writer.write(newtext);
-			
 			writer.close();
 
 		} catch (IOException ioe) {
@@ -626,12 +569,16 @@ public class LsmwProjectRelease {
 			Robot robot=new Robot();
 
 
+			if(driver.findElement(By.name(ConstantForSapLogon.ConstantForSap.LSMW_EDIT.getValue())).getSize()!=null)
+			{
+				System.out.println("Got itttt");
+				System.out.println("size2:::::"+driver.findElement(By.name(ConstantForSapLogon.ConstantForSap.LSMW_EDIT.getValue())).getSize());
 
-			robot.keyPress(KeyEvent.VK_CONTROL);
-			robot.keyPress(KeyEvent.VK_SLASH);
-			robot.keyRelease(KeyEvent.VK_SLASH);
-			robot.keyRelease(KeyEvent.VK_CONTROL);
-			Thread.sleep(3000);
+				Actions action=new Actions(driver);
+				action.moveToElement(driver.findElement(By.className(ConstantForSapLogon.ConstantForSap.LSMW_EDIT.getValue())));
+
+
+
 				this.simulateClipBoard(ConstantForSapLogon.ConstantForSap.LSMW_TCODE.getValue(),robot);
 
 				robot.keyPress(KeyEvent.VK_ENTER);
@@ -1087,7 +1034,7 @@ public class LsmwProjectRelease {
 				Thread.sleep(3000);
 
 
-			
+			} 
 		}
 
 
@@ -1116,20 +1063,6 @@ public class LsmwProjectRelease {
 		Runtime.getRuntime().exec(KILL + serviceName);
 
 
-	}
-	
-	public static void pressTab(Robot robot,int count)
-	{
-		for(int i=1;i<=count;i++)
-		{
-		robot.keyPress(KeyEvent.VK_TAB);
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		}
 	}
 }
 

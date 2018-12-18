@@ -41,7 +41,7 @@ import LsmwProjectRelease.ConstantForSapLogon;
 
 public class LsmwProjectFicojournal {
 
-	public  void Release(String opco,String env) throws MalformedURLException, InterruptedException {
+	public  void Execute(String opco,String env) throws MalformedURLException, InterruptedException {
 		//\\vf0013.gha.kfplc.com\Shared\Group\NWBC_Config\FullSAPUILandscape.xml
 		ReportGeneration report=new ReportGeneration();
 		String column1[]={"Scenario Name","Document Number","Validated","Status"};
@@ -62,7 +62,7 @@ public class LsmwProjectFicojournal {
 		
 
 		Runtime rtt=Runtime.getRuntime();
-/*	try {
+	try {
 
 			rtt.exec(System.getProperty("user.dir")+"\\Winium.Desktop.Driver.exe");
 			//"C:\\downloads\\Winium.Desktop.Driver\\Winium.Desktop.Driver.exe");
@@ -70,7 +70,7 @@ public class LsmwProjectFicojournal {
 		} catch (IOException e3) {
 			// TODO Auto-generated catch block
 			e3.printStackTrace();
-		}*/
+		}
 	
 	//*****************************************Start Driver**************************************
 
