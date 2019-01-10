@@ -38,17 +38,17 @@ import org.openqa.selenium.winium.WiniumDriver;
 
 import LsmwProjectRelease.ConstantForSapLogon;
 
-public class LsmwProjectmBankForeign {
+public class LsmwProjectHsbcForeign {
 
 	public  void Execute(String opco,String env) throws MalformedURLException, InterruptedException {
 		//\\vf0013.gha.kfplc.com\Shared\Group\NWBC_Config\FullSAPUILandscape.xml
 		ReportGeneration report=new ReportGeneration();
-		String column1[]={"Scenario Name","Project No","Sap Project Status","Validated","Status"};
+		String column1[]={"Scenario Name","Vendor Invoice No","Sap Project Status","Validated","Status"};
 		String comment="";
 		String status="FAIL";
 		String relStatus="";
-		String S="";
-		try {
+		String documentNo="";
+		try { 
 			String processName = "notepad.exe";
 			if (isProcessRunning(processName)) {
 
@@ -63,8 +63,11 @@ public class LsmwProjectmBankForeign {
 		Runtime rtt=Runtime.getRuntime();
 	try {
 
-			//rtt.exec(System.getProperty("user.dir")+"\\Winium.Desktop.Driver.exe");
-			rtt.exec("C:\\downloads\\ZenEssential-ZenEssential\\POI\\Winium.Desktop.Driver.exe");
+		    //rtt.exec(System.getProperty("user.dir")+"\\Winium.Desktop.Driver.exe");
+			//rtt.exec("C:\\downloads\\ZenEssential-ZenEssential\\POI\\Winium.Desktop.Driver.exe");
+			rtt.exec("C:\\downloads\\Winium.Desktop.Driver.exe");
+
+			
 
 		} catch (IOException e3) {
 			// TODO Auto-generated catch block
@@ -76,7 +79,7 @@ public class LsmwProjectmBankForeign {
 		int rowNo=0;
 
 
-		LsmwProjectmBankForeign demo=new LsmwProjectmBankForeign();
+		LsmwProjectHsbcForeign demo=new LsmwProjectHsbcForeign();
 
 		//**************************Retrieve Opco and Environment Specific Data***************************
 
@@ -123,7 +126,7 @@ public class LsmwProjectmBankForeign {
 		}
 		//selenium
 		//System.setProperty("webdriver.chrome.driver",System.getProperty("user.dir")+"\\chromedriver.exe");
-		System.setProperty("webdriver.chrome.driver","C:\\downloads\\ZenEssential-ZenEssential.zip\\POI");
+		System.setProperty("webdriver.chrome.driver","C:\\downloads\\ZenEssential-ZenEssential\\POI\\chromedriver.exe");
 
 		WebDriver chrome= new ChromeDriver();
 
@@ -145,8 +148,7 @@ public class LsmwProjectmBankForeign {
 
 
 
-		if (chrome.findElement(By.xpath(
-		"//*[@id='SESSION_QUERY_CONTINUE_BUTTON-txt']/span")).getSize()!=null) {
+		if (chrome.findElement(By.xpath("//*[@id='SESSION_QUERY_CONTINUE_BUTTON-txt']/span")).getSize()!=null) {
 
 		chrome.findElement(By.xpath("//*[@id='SESSION_QUERY_CONTINUE_BUTTON-txt']/span")).click();
 
@@ -176,9 +178,10 @@ public class LsmwProjectmBankForeign {
 		Thread.sleep(7000);
 		if (chrome.findElement(By.xpath("//input[@id='M0:U:1:2B264::0:16']")).getSize()!=null)
 		{
-		chrome.findElement(By.xpath("//input[@id='M0:U:1:2B264::0:16']")).sendKeys(ConstantForSapLogon.ConstantForSap.NBANK_VENDOR_VALUE_FOREIGN.getValue());
+		chrome.findElement(By.xpath("//input[@id='M0:U:1:2B264::0:16']")).sendKeys(ConstantForSapLogon.ConstantForSap.NBANK_VENDOR_VALUE_FOREIGN_HSBC.getValue());
 		chrome.findElement(By.xpath("//input[@id='M0:U:1:2B264::0:16']")).sendKeys(Keys.ENTER);
 		Thread.sleep(2000);
+		System.out.println("Vendor Number Entered");
 
 		}
 
@@ -195,6 +198,7 @@ public class LsmwProjectmBankForeign {
 		Thread.sleep(3000);
 		chrome.findElement(By.xpath("//input[@id='M0:U:1:2B264::1:16']")).sendKeys(Keys.ENTER);
 		Thread.sleep(5000);
+		System.out.println("System Date Entered");
 		}
 
 		if (chrome.findElement(By.xpath("//input[@id='M0:U:1:2B264::1:47']")).getSize()!=null)
@@ -208,6 +212,7 @@ public class LsmwProjectmBankForeign {
 
 		chrome.findElement(By.xpath("//input[@id='M0:U:1:2B264::1:47']")).sendKeys(Keys.ENTER);
 		Thread.sleep(5000);
+		System.out.println("Reference Text Entered");
 		}
 
 		if (chrome.findElement(By.xpath("//input[@id='M0:U:1:2B264::4:16']")).getSize()!=null)
@@ -215,25 +220,28 @@ public class LsmwProjectmBankForeign {
 		chrome.findElement(By.xpath("//input[@id='M0:U:1:2B264::4:16']")).sendKeys(ConstantForSapLogon.ConstantForSap.NBANK_AMOUNT_VALUE.getValue());
 
 		Thread.sleep(5000);
+		System.out.println("Amount Entered");
 		}
 		
 		chrome.findElement(By.xpath("//input[@id='M0:U:1:2B264::4:36']")).clear();
 		Thread.sleep(3000);
 		chrome.findElement(By.xpath("//input[@id='M0:U:1:2B264::4:36']")).sendKeys(ConstantForSapLogon.ConstantForSap.NBANK_CURRENCY_KEY_FOREIGN.getValue());
 		Thread.sleep(3000);
-
+        System.out.println("Currency Key Entered");
 		
 
 		if (chrome.findElement(By.xpath("//input[starts-with(@id,'tbl')][contains(@id,'[1,2]')]")).getSize()!=null)
 		{
 		chrome.findElement(By.xpath("//input[starts-with(@id,'tbl')][contains(@id,'[1,2]')]")).sendKeys(ConstantForSapLogon.ConstantForSap.NBANK_GL_ACCOUNT_VALUE.getValue());   
 		Thread.sleep(5000);
+		System.out.println("GL Account Value Entered");
 		}
 
 		if (chrome.findElement(By.xpath("//div[@id='M0:U:4:1_hscroll-Nxt']")).getSize()!=null)
 		{
 		chrome.findElement(By.xpath("//input[starts-with(@id,'tbl')][contains(@id,'[1,5]')]")).sendKeys(ConstantForSapLogon.ConstantForSap.NBANK_AMMOUNT_IN_DOC_VALUE.getValue());
 		Thread.sleep(3000);
+		System.out.println("Amount in Document Value Entered");
 
 		for (int i=0;i<=24;i++){
 		chrome.findElement(By.xpath("//div[@id='M0:U:4:1_hscroll-Nxt']")).click();
@@ -244,15 +252,15 @@ public class LsmwProjectmBankForeign {
 		chrome.findElement(By.xpath("//input[starts-with(@id,'tbl')][contains(@id,'[1,28]')]")).sendKeys(ConstantForSapLogon.ConstantForSap.NBANK_PROFIT_CENTER_VALUE.getValue());   
 
 		Thread.sleep(5000);
+		System.out.println("Profit Center Value Entered");
 		chrome.findElement(By.xpath("//input[starts-with(@id,'tbl')][contains(@id,'[1,28]')]")).sendKeys(Keys.ENTER);
 		Thread.sleep(5000);
 		chrome.findElement(By.xpath("//input[starts-with(@id,'tbl')][contains(@id,'[1,2]')]")).sendKeys(Keys.ENTER);
 
-		}
-
-		if (chrome.findElement(By.xpath("//div[@id='M0:U:1::0:1']")).isDisplayed())
-		{
+		Thread.sleep(3000);
 		System.out.println("***********NBANK_PAYMENT_TAB*********");
+		Thread.sleep(3000);
+		chrome.findElement(By.xpath("//table[@id='M0:U:1:2B264']")).click();
 		chrome.findElement(By.xpath("//input[@id='M0:U:1:2B264::6:16']")).click();
 		Thread.sleep(5000);
 		chrome.findElement(By.xpath("//input[@id='M0:U:1:2B264::6:16']")).sendKeys(Keys.PAGE_UP);
@@ -264,15 +272,17 @@ public class LsmwProjectmBankForeign {
 		System.out.println("**********1st enter*********");
 		Thread.sleep(5000);
 
+		}else{
+			System.out.println("not find element ");
 		}
 
 		if (chrome.findElement(By.xpath("//*[@id='M0:U:1:2B265::4:11']")).getSize()!=null)
 		{
-		chrome.findElement(By.xpath("//*[@id='M0:U:1:2B265::4:11']")).sendKeys(ConstantForSapLogon.ConstantForSap.NBANK_PMT_METHOD_VALUE.getValue());   
+		chrome.findElement(By.xpath("//*[@id='M0:U:1:2B265::4:11']")).sendKeys(ConstantForSapLogon.ConstantForSap.NBANK_PMT_METHOD_VALUE_FOREIGN.getValue());   
 		Thread.sleep(3000);
-		chrome.findElement(By.xpath("//*[@id='M0:U:1:2B265::6:49']")).sendKeys(ConstantForSapLogon.ConstantForSap.NBANK_HOUSE_BANK1_VALUE.getValue());  
+		chrome.findElement(By.xpath("//*[@id='M0:U:1:2B265::6:49']")).sendKeys(ConstantForSapLogon.ConstantForSap.NBANK_HOUSE_BANK1_VALUE_HSBC.getValue());  
 		Thread.sleep(3000);
-		chrome.findElement(By.xpath("//*[@id='M0:U:1:2B265::6:57']")).sendKeys(ConstantForSapLogon.ConstantForSap.NBANK_HOUSE_BANK2_VALUE_DOMESTIC.getValue());   
+		chrome.findElement(By.xpath("//*[@id='M0:U:1:2B265::6:57']")).sendKeys(ConstantForSapLogon.ConstantForSap.NBANK_HOUSE_BANK1_VALUE_HSBC.getValue());   
 		Thread.sleep(5000);
 		chrome.findElement(By.xpath("//*[@id='M0:D:10::btn[11]']")).click();
 		Thread.sleep(5000);
@@ -285,14 +295,70 @@ public class LsmwProjectmBankForeign {
 		if (chrome.findElement(By.xpath("//span[@id='wnd[0]/sbar_msg-txt']")).getSize()!=null)
 		{
 		System.out.println("***********S1*********"+chrome.findElement(By.xpath("//span[@id='wnd[0]/sbar_msg-txt']")).getText());
-		S=chrome.findElement(By.xpath("//span[@id='wnd[0]/sbar_msg-txt']")).getText().split("\\s+")[1];
-		System.out.println("***********S*********"+S);
+		documentNo=chrome.findElement(By.xpath("//span[@id='wnd[0]/sbar_msg-txt']")).getText().split("\\s+")[1];
+		System.out.println("***********S*********"+documentNo);
 
+		
+			System.out.println("Check the Vendor No in /nfb03 page");
+			chrome.findElement(By.xpath("//*[@id='M0:D:10::okcd']")).sendKeys("/nfb03");
+			Thread.sleep(5000);
+			chrome.findElement(By.xpath("//*[@id='M0:D:10::okcd']")).sendKeys(Keys.ENTER);
+			Thread.sleep(2000);
+
+            chrome.findElement(By.xpath("//input[@id='M0:U:::2:25']")).clear();
+            chrome.findElement(By.xpath("//input[@id='M0:U:::2:25']")).sendKeys(documentNo);
+			Thread.sleep(3000);
+            chrome.findElement(By.xpath("//input[@id='M0:U:::2:25']")).sendKeys(Keys.ENTER);
+			Thread.sleep(5000);
+			//if (chrome.findElement(By.xpath("(//input[@class='lsTblEdf3 lsTblEdf3NoEllipsis urBorderBox lsControl--explicitwidth lsField__input'])[8]")).getText()==ConstantForSapLogon.ConstantForSap.VENDOR_NUMBER_FIELD.getValue())
+					  System.out.println("Double Click on the Vendor Box");
+					  Thread.sleep(2000);
+				       Actions action = new Actions(chrome);
+				       action.doubleClick(chrome.findElement(By.xpath("(//input[@class='lsTblEdf3 lsTblEdf3NoEllipsis urBorderBox lsControl--explicitwidth lsField__input'])[8]")));
+				       action.perform();
+					   Thread.sleep(5000);
+					   if (chrome.findElement(By.xpath("//input[@title='Amount Eligible for Cash Discount in Document Currency']")).isDisplayed())
+					   {
+						   chrome.findElement(By.xpath("//input[@title='Amount Eligible for Cash Discount in Document Currency']")).sendKeys(Keys.F8);
+						   Thread.sleep(3000);
+                           chrome.switchTo().defaultContent();
+                           Thread.sleep(2000);
+						   chrome.switchTo().frame("URLSPW-0");
+						   Thread.sleep(2000);
+						   System.out.println("Switched to Frame URLSW-0");
+						   Thread.sleep(3000);
+					         
+							  System.out.println("NBANK_AMOUNT_VALUE::::"+chrome.findElement(By.xpath("//input[@id='M1:U:::8:17']")).getText());
+							  Thread.sleep(3000);
+							  String S3=chrome.findElement(By.xpath("//*[@id='M1:U:::0:17']")).getAttribute("value");
+							  System.out.println(S3);
+							  Thread.sleep(3000);
+							  System.out.println("succcesfful::::");
+							  Thread.sleep(3000);
+							 
+
+						  }else{
+							  System.out.println("unsucccesfful::::");
+						  }
+						   
+
+					
+					   
+
+					}
+          
+
+			
 		}
+		
+		
+		
+		
+		
 
 		chrome.close();
 
-
+      
 		WiniumDriver driver=null;
 		
 
@@ -400,7 +466,7 @@ public class LsmwProjectmBankForeign {
 					Thread.sleep(2000);
 					pressTab(robot,7);
 					Thread.sleep(2000);
-					demo.simulateClipBoard("811502",robot);
+					demo.simulateClipBoard("509282",robot);
 					Thread.sleep(2000);
 					pressTab(robot,1);
 					Thread.sleep(2000);
@@ -440,7 +506,7 @@ public class LsmwProjectmBankForeign {
 					//pressTab(robot,2);
 					Thread.sleep(2000);
 					//provide the Document no here
-					demo.simulateClipBoard(S,robot);
+					demo.simulateClipBoard(documentNo,robot);
 					Thread.sleep(2000);
 					robot.keyPress(KeyEvent.VK_CONTROL);
 					robot.keyPress(KeyEvent.VK_SLASH);
@@ -480,7 +546,7 @@ public class LsmwProjectmBankForeign {
 					robot.keyPress(KeyEvent.VK_SPACE);
 					Thread.sleep(2000);
 					pressTab(robot,1);
-					demo.simulateClipBoard("811502",robot);
+					demo.simulateClipBoard("509282",robot);
 					
 					robot.keyPress(KeyEvent.VK_CONTROL);
 					robot.keyPress(KeyEvent.VK_SLASH);
@@ -593,7 +659,7 @@ public class LsmwProjectmBankForeign {
 			}
 			
 			
-			String reportData1[]={"Lsmw Project Release",projectName,relStatus,"The project has been Released",status};
+			String reportData1[]={"Lsmw HSBC Foreign",documentNo,relStatus,"The project has been Released",status};
 
 			report.generateReport(1,column1,reportData1,"Report.xlsx");
 
@@ -617,7 +683,7 @@ public class LsmwProjectmBankForeign {
 		}
 
 	}
-	}
+	
 
 	/*public void modifyBeforeUpload(String projectName)
 	{

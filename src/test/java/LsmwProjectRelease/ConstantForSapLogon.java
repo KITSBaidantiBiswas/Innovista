@@ -40,7 +40,7 @@ public class ConstantForSapLogon {
 		LSMW_MULTIPLE_USER("License Information for Multiple Logons"),
 		LSMW_TERMINATE_LOGON("Confirm Selection"),
 		LSMW_MICROSOFT_EXCEL("Microsoft Excel"),
-		LSMW_SECURITY_POPUP("Microsoft Excel Security Notice"),
+		LSMW_SECURITY_POPUP("Microsoft Excel Security Notice"),			
 		LSMW_ENABLE_MICRO("Enable Macros"),
 		LSMW_LOCALE_FILE("Local file..."),
 		LSMW_FILE_SAVE_CONTINUE("Continue"),
@@ -53,7 +53,7 @@ public class ConstantForSapLogon {
 		LSMW_OBJECT("2018"),
 		LSMW_DISPLAY_DOCUMENT_HEADER("Display Document Header"),
 		LSMW_USERID_FRZ("Reg_TestFRZ"),
-		LSMW_PASSWORD_FRZ("Welcome*2"),
+		LSMW_PASSWORD_FRZ("London@1"),
 		LSMW_DISPLAYCHANGE("Display <-> Change"),
 		LSMW_CONTINUE("Continue"),
 		LSMW_CASTOPL_TEXTFILE("\\Test_File.txt"),
@@ -91,6 +91,8 @@ public class ConstantForSapLogon {
 		NBANK_REFRENCE_NO("//input[@id='M0:U:1:2B264::1:47']"),
 		NBANK_REFRENCE_NO_VALUE("TEST_9"),
 		NBANK_VENDOR_VALUE_FOREIGN("811502"),
+		NBANK_VENDOR_VALUE_FOREIGN_HSBC("509282"),
+		NBANK_VENDOR_VALUE_DOMESTIC_HSBC("509210"),
 
 		NBANK_AMOUNT("//input[@id='M0:U:1:2B264::4:16']"),
 		NBANK_AMOUNT_VALUE("100"),
@@ -110,19 +112,50 @@ public class ConstantForSapLogon {
 		NBANK_PAYMENT_TAB("//div[@id='M0:U:1::0:1']"),
 		NBANK_PMT_METHOD("//*[@id='M0:U:1:2B265::4:11']"),
 		NBANK_PMT_METHOD_VALUE("P"),
+		NBANK_PMT_METHOD_VALUE_FOREIGN("F"),
 
 		NBANK_HOUSE_BANK1("//*[@id='M0:U:1:2B265::6:49']"),
 		NBANK_HOUSE_BANK1_VALUE("BRE1"),
-
+		NBANK_HOUSE_BANK1_VALUE_HSBC("HSBC2"),
+		NBANK_HOUSE_BANK1_VALUE_HSBC_DOMESTIC1("HSBC3"),
 		NBANK_HOUSE_BANK2("//*[@id='M0:U:1:2B265::6:57']"),
 		NBANK_HOUSE_BANK2_VALUE("00002"),
 		NBANK_HOUSE_BANK2_VALUE_DOMESTIC("00001"),
-
+		//*[@id="M1:U:::0:17"]
 		NBANK_DOCUMENT_NO("//span[@id='wnd[0]/sbar_msg-txt']"),
 		NBANK_RIGHT_SIDE_ARROW("//div[@id='M0:U:4:1_hscroll-Nxt']"),
 		NBANK_DOCUMENT_NO_VALIDATION_MESSEGE("//span[@id='wnd[0]/sbar_msg-txt']"),
 		NBANK_TEXT_FIELD("//input[@id='M0:U:1:2B264::6:16']"),
 		NBANK_POST("//*[@id='M0:D:10::btn[11]']"),
+		
+		//Fb03 Xpaths
+		DOCUMENT_NUMBER_FIELD("//input[@id='M0:U:::2:25']"),
+		VENDOR_NUMBER_FIELD("(//input[@class='lsTblEdf3 lsTblEdf3NoEllipsis urBorderBox lsControl--explicitwidth lsField__input'])[8]"),
+		AMOUNT_ELIGIBLE_FIELD("//input[@title='Amount Eligible for Cash Discount in Document Currency']"),
+		GROUP_CRC_AMMOUNT("//input[@id='M1:U:::8:17']"),
+	    IFRAME_URLSPW_0("//iframe[@id='URLSPW-0']"),
+	    CALCULATE_TAX_CHECKBOX("//img[@id='M0:U:1:2B264::4:47-img']"),
+	    CALCULATE_TAX_DROPDOWN("//input[@type='text' and @title='Tax on Sales/Purchases Code']"),
+
+	    ING_CURRENCY_KEY_FOREIGN("EUR"),
+	    ING_HOUSE_BANK1_VALUE("ING"),
+	    ING_HOUSE_BANK2_VALUE_FOREIGN("ING02"),
+	    ING_PMT_METHOD_VALUE("F"),
+	    ING_HOUSE_BANK2_VALUE_DOMESTIC("ING01"),
+	    ING_PMT_METHOD_VALUE_DOMESTIC("P"),
+	    ING_VENDOR_VALUE_DOMESTIC("509282"),
+	    NFB60_COMPANY_CODE_TAB("//div[@id='M0:D:13::btn[7]']"),
+	  
+	    INPUT_COMPANY_CODE_TAB("//input[@id='M1:U:::0:18']"),
+	    INPUT_COMPANY_CODE_OK_TAB("//div[@id='M1:D:13::btn[0]']"),
+	    
+	    FRAME_1("//iframe[starts-with(@id,'iFrameId_1546601646021')]"),
+	  
+	  
+		
+		
+
+		
 		
 
 
