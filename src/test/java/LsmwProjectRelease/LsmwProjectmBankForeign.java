@@ -63,8 +63,8 @@ public class LsmwProjectmBankForeign {
 		Runtime rtt=Runtime.getRuntime();
 	try {
 
-			//rtt.exec(System.getProperty("user.dir")+"\\Winium.Desktop.Driver.exe");
-			rtt.exec("C:\\downloads\\ZenEssential-ZenEssential\\POI\\Winium.Desktop.Driver.exe");
+			///rtt.exec(System.getProperty("user.dir")+"\\Winium.Desktop.Driver.exe");
+			rtt.exec("C:\\downloads\\Winium.Desktop.Driver.exe");
 
 		} catch (IOException e3) {
 			// TODO Auto-generated catch block
@@ -123,7 +123,7 @@ public class LsmwProjectmBankForeign {
 		}
 		//selenium
 		//System.setProperty("webdriver.chrome.driver",System.getProperty("user.dir")+"\\chromedriver.exe");
-		System.setProperty("webdriver.chrome.driver","C:\\downloads\\ZenEssential-ZenEssential.zip\\POI");
+		System.setProperty("webdriver.chrome.driver","C:\\downloads\\TAC\\chromedriver.exe");
 
 		WebDriver chrome= new ChromeDriver();
 
@@ -138,19 +138,22 @@ public class LsmwProjectmBankForeign {
 		Thread.sleep(2000);
 		chrome.findElement(By.xpath("//*[@id='sap-password']")).sendKeys(ConstantForSapLogon.ConstantForSap.LSMW_PASSWORD_FRZ.getValue());
 
-		chrome.findElement(By.xpath("//*[@id='LOGON_BUTTON-txt']/span")).click();
-		Thread.sleep(2000);
+		chrome.findElement(By.xpath(ConstantForSapLogon.ConstantForSap.SAP_FRZ_LOGON.getValue())).click();
+		Thread.sleep(6000);
 
 		try {
 
 
 
-		if (chrome.findElement(By.xpath(
-		"//*[@id='SESSION_QUERY_CONTINUE_BUTTON-txt']/span")).getSize()!=null) {
+		if (chrome.findElement(By.xpath(ConstantForSapLogon.ConstantForSap.SAP_FRZ_LOGON_MULTIPLELOGON_RADIO.getValue())).getSize()!=null) {
 
-		chrome.findElement(By.xpath("//*[@id='SESSION_QUERY_CONTINUE_BUTTON-txt']/span")).click();
+		chrome.findElement(By.xpath(ConstantForSapLogon.ConstantForSap.SAP_FRZ_LOGON_MULTIPLELOGON_RADIO.getValue())).click();
+		
 
-		Thread.sleep(4000);
+		Thread.sleep(2000);
+		chrome.findElement(By.xpath(ConstantForSapLogon.ConstantForSap.SAP_FRZ_LOGON_CONTINUE.getValue())).click();
+		Thread.sleep(7000);
+		
 		}
 		}
 		catch(Exception exc)

@@ -67,8 +67,8 @@ public class LsmwProjectAucUpload {
 		Runtime rtt=Runtime.getRuntime();
 		try {
 
-			//rtt.exec(System.getProperty("user.dir")+"\\Winium.Desktop.Driver.exe");
-			rtt.exec("C:\\downloads\\ZenEssential-ZenEssential\\POI\\Winium.Desktop.Driver.exe");
+			rtt.exec(System.getProperty("user.dir")+"\\Winium.Desktop.Driver.exe");
+			//rtt.exec("C:\\downloads\\ZenEssential-ZenEssential\\POI\\Winium.Desktop.Driver.exe");
 
 		} catch (IOException e3) {
 			// TODO Auto-generated catch block
@@ -188,8 +188,8 @@ public class LsmwProjectAucUpload {
 
 					e1.getMessage();
 				}
-
-				Thread.sleep(10000);
+				
+				Thread.sleep(10000);		
 
 
 				if(driver.findElement(By.name(ConstantForSapLogon.ConstantForSap.LSMW_EDIT.getValue())).getSize()!=null)
@@ -206,7 +206,7 @@ public class LsmwProjectAucUpload {
 					robot.keyPress(KeyEvent.VK_ENTER);
 
 
-					Thread.sleep(6000);
+					Thread.sleep(10000);
 					//*************Press Tab*********
 
 					pressTab(robot,10);
@@ -229,6 +229,7 @@ public class LsmwProjectAucUpload {
 					Thread.sleep(4000);
 					projectName=ConstantForSapLogon.ConstantForSap.LSMW_CJ20N_PROJECTNAME.getValue();
 					System.out.println(projectName);
+					Thread.sleep(3000);
 					demo.simulateClipBoard(projectName,robot);
 					robot.keyPress(KeyEvent.VK_TAB);
 					Thread.sleep(1000);
@@ -633,43 +634,65 @@ public class LsmwProjectAucUpload {
 			chrome.findElement(By.xpath("//*[@id='sap-user']")).sendKeys(ConstantForSapLogon.ConstantForSap.LSMW_USERID_FRZ.getValue());
 			Thread.sleep(2000);
 			chrome.findElement(By.xpath("//*[@id='sap-password']")).sendKeys(ConstantForSapLogon.ConstantForSap.LSMW_PASSWORD_FRZ.getValue());
-
-			chrome.findElement(By.xpath("//*[@id='LOGON_BUTTON-txt']/span")).click();
-			Thread.sleep(2000);
-
+			Thread.sleep(4000);
+			chrome.findElement(By.xpath(ConstantForSapLogon.ConstantForSap.SAP_FRZ_LOGON.getValue())).click();
+			Thread.sleep(6000);
 			try {
 
 
 
-				if (chrome.findElement(By.xpath(
-						"//*[@id='SESSION_QUERY_CONTINUE_BUTTON-txt']/span")).getSize()!=null) {
+				if (chrome.findElement(By.xpath(ConstantForSapLogon.ConstantForSap.SAP_FRZ_LOGON_MULTIPLELOGON_RADIO.getValue())).getSize()!=null) {
 
-					chrome.findElement(By.xpath("//*[@id='SESSION_QUERY_CONTINUE_BUTTON-txt']/span")).click();
+				chrome.findElement(By.xpath(ConstantForSapLogon.ConstantForSap.SAP_FRZ_LOGON_MULTIPLELOGON_RADIO.getValue())).click();
+				
 
-					Thread.sleep(4000);
+				Thread.sleep(2000);
+				chrome.findElement(By.xpath(ConstantForSapLogon.ConstantForSap.SAP_FRZ_LOGON_CONTINUE.getValue())).click();
+				Thread.sleep(7000);
+				
 				}
-			}
-			catch(Exception exc)
-			{
+				}
+				catch(Exception exc)
+				{
 				exc.printStackTrace();
-			}
-
+				}
+			Thread.sleep(35000);
 			chrome.switchTo().frame(0);
-			Thread.sleep(2000);
+			Thread.sleep(4000);
 			chrome.switchTo().frame("ITSFRAME1");
 			System.out.println("***********Switched Frame ITSFRAME1*********");
-			Thread.sleep(6000);
+			Thread.sleep(10000);
 
-			if (chrome.findElement(By.xpath("//*[@id='M0:D:10::okcd']")).getSize()!=null) {
+			if (chrome.findElement(By.xpath("//*[@id='ToolbarOkCode']")).getSize()!=null) {
 
-			}
-			chrome.findElement(By.xpath("//*[@id='M0:D:10::okcd']")).sendKeys(ConstantForSapLogon.ConstantForSap.LSMW_CJ20N.getValue());
+		
+			//chrome.findElement(By.xpath("//*[@id='M0:D:10::okcd']")).sendKeys(ConstantForSapLogon.ConstantForSap.LSMW_CJ20N.getValue());
+			chrome.findElement(By.xpath("//*[@id='ToolbarOkCode']")).sendKeys(ConstantForSapLogon.ConstantForSap.LSMW_CJ20N.getValue());
 			Thread.sleep(2000);
 			// getDriver().findElement(By.xpath("//*[@name='ToolbarOkCode']")).sendKeys(Keys.);
 			chrome.findElement(By.xpath("//*[@id='M0:D:10::okcd']")).sendKeys(Keys.ENTER);
 			Thread.sleep(7000);
+			}
+			
+			/*chrome.switchTo().defaultContent();
+			Thread.sleep(3000);
+			chrome.switchTo().frame("URLSPW-0");
+			Thread.sleep(3000);
+			if(chrome.findElement(By.xpath(ConstantForSapLogon.ConstantForSap.LSMW_CJ20N_CLOSE.getValue())).getSize()!=null)
+			{
+				chrome.findElement(By.xpath(ConstantForSapLogon.ConstantForSap.LSMW_CJ20N_CLOSE.getValue())).click();
+				Thread.sleep(4000);
+				
+			}*/
+			
+			/*chrome.switchTo().defaultContent();
+			Thread.sleep(3000);
+			chrome.switchTo().frame("ITSFRAME1");
+			Thread.sleep(3000);*/
+			
 			if(chrome.findElement(By.xpath(ConstantForSapLogon.ConstantForSap.SAP_WEB_OPEN_ICON.getValue())).getSize()!=null)
 			{
+				System.out.println("under open option");
 				chrome.findElement(By.xpath(ConstantForSapLogon.ConstantForSap.SAP_WEB_OPEN_ICON.getValue())).click();
 				Thread.sleep(4000);
 			}

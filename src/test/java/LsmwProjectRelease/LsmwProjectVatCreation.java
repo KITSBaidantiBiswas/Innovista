@@ -180,14 +180,14 @@ public class LsmwProjectVatCreation {
 				robot.keyPress(KeyEvent.VK_TAB);
 				robot.keyRelease(KeyEvent.VK_TAB);
 
-				Thread.sleep(10000);
+				Thread.sleep(4000);
 
 
 
 
 				demo.simulateClipBoard(map.get("LSMW_PASSWORD"),robot);
 				robot.keyPress(KeyEvent.VK_ENTER);
-				Thread.sleep(5000);
+				Thread.sleep(30000);
 				try{
 
 
@@ -224,7 +224,7 @@ public class LsmwProjectVatCreation {
 
 					Thread.sleep(6000);
 
-					demo.simulateClipBoard(map.get("LSMW_PROJECT"),robot);
+					demo.simulateClipBoard(logon.invoiceSetter(invoiceType),robot);
 					Thread.sleep(2000);
 					robot.keyPress(KeyEvent.VK_TAB);
 					demo.simulateClipBoard(ConstantForSapLogon.ConstantForSap.LSMW_SUBPROJECT.getValue(),robot);
@@ -296,7 +296,7 @@ public class LsmwProjectVatCreation {
 				e1.printStackTrace();
 
 			}
-			String reportData1[]={"VAT Update",invoiceType,map.get("LSMW_PROJECT"),comment,status};
+			String reportData1[]={"VAT Update",invoiceType,logon.invoiceSetter(invoiceType),comment,status};
 
 			report.generateReport(1,column1, reportData1, "Report.xlsx");
 
@@ -589,21 +589,21 @@ public class LsmwProjectVatCreation {
 				robot.keyPress(KeyEvent.VK_A);
 				robot.keyRelease(KeyEvent.VK_CONTROL);
 				robot.keyRelease(KeyEvent.VK_A);
-				this.simulateClipBoard(ConstantForSapLogon.ConstantForSap.LSMW_PROJECT_LSMW.getValue(),robot);
+				this.simulateClipBoard(ConstantForSapLogon.ConstantForSap.LSMW_PROJECT_LSMW_VAT.getValue(),robot);
 				Thread.sleep(2000);
 				robot.keyPress(KeyEvent.VK_TAB);
 				robot.keyPress(KeyEvent.VK_CONTROL);
 				robot.keyPress(KeyEvent.VK_A);
 				robot.keyRelease(KeyEvent.VK_CONTROL);
 				robot.keyRelease(KeyEvent.VK_A);
-				this.simulateClipBoard(ConstantForSapLogon.ConstantForSap.LSMW_SUBPROJECT_LSMW.getValue(),robot);
+				this.simulateClipBoard(ConstantForSapLogon.ConstantForSap.LSMW_SUBPROJECT_LSMW_VAT.getValue(),robot);
 				Thread.sleep(2000);
 				robot.keyPress(KeyEvent.VK_TAB);
 				robot.keyPress(KeyEvent.VK_CONTROL);
 				robot.keyPress(KeyEvent.VK_A);
 				robot.keyRelease(KeyEvent.VK_CONTROL);
 				robot.keyRelease(KeyEvent.VK_A);
-				this.simulateClipBoard(ConstantForSapLogon.ConstantForSap.LSMW_OBJECT_LSMW.getValue(),robot);
+				this.simulateClipBoard(ConstantForSapLogon.ConstantForSap.LSMW_OBJECT_LSMW_VAT.getValue(),robot);
 				Thread.sleep(2000);
 				robot.keyPress(KeyEvent.VK_ENTER);
 				Thread.sleep(2000);
@@ -736,6 +736,7 @@ public class LsmwProjectVatCreation {
 					robot.keyPress(KeyEvent.VK_F2);
 					Thread.sleep(4000);
 					robot.keyPress(KeyEvent.VK_F8);
+					Thread.sleep(4000);
 					try{
 
 

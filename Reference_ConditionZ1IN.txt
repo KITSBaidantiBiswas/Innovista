@@ -1,0 +1,2 @@
+PurchOrg  Status  Amt  Unit  Validfrom Validto
+KP00		10	M3	$x	31.12.9999					

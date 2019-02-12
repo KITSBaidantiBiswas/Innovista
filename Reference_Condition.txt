@@ -1,0 +1,2 @@
+PurchOrg  Incoterms  Inco2  Site  Amt  Unit UOM Validfrom Validto
+KP00	FOB	CNNGB1	DK01	5	GBP	M3	$x	31.12.9999

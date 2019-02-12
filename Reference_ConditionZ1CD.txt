@@ -1,0 +1,2 @@
+PurchOrg  Origin  Commcode  Status  Amt  Unit  Validfrom Validto
+KP00				5	GBP	$x	31.12.9999

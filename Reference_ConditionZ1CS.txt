@@ -1,0 +1,2 @@
+PurchOrg  Incoterms  Status  Amt  Unit UOM Validfrom Validto
+KP00	FOB	5	GBP	M3	$x	31.12.9999

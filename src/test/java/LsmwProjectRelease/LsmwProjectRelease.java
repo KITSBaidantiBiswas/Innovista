@@ -204,6 +204,9 @@ public class LsmwProjectRelease {
 
 
 					Thread.sleep(6000);
+					//pressTab(robot,4);
+					robot.keyPress(KeyEvent.VK_ENTER);
+					Thread.sleep(4000);
 					//*************Press Tab*********
 					
 					pressTab(robot,10);
@@ -280,7 +283,7 @@ public class LsmwProjectRelease {
 					
 					chrome.manage().window().maximize();
 					chrome.navigate().to(ConstantForSapLogon.ConstantForSap.SAP_FRZ_URL.getValue());
-					Thread.sleep(4000);
+					Thread.sleep(6000);
 				
 					if (chrome.findElement(By.xpath("//*[@id='sap-user']")).getSize()!=null) {
 						
@@ -288,9 +291,9 @@ public class LsmwProjectRelease {
 						chrome.findElement(By.xpath("//*[@id='sap-user']")).sendKeys(ConstantForSapLogon.ConstantForSap.LSMW_USERID_FRZ.getValue());
 						Thread.sleep(2000);
 						chrome.findElement(By.xpath("//*[@id='sap-password']")).sendKeys(ConstantForSapLogon.ConstantForSap.LSMW_PASSWORD_FRZ.getValue());
-				
+						Thread.sleep(4000);
 						chrome.findElement(By.xpath("//*[@id='LOGON_BUTTON-txt']/span")).click();
-						Thread.sleep(2000);
+						Thread.sleep(10000);
 						
 				try {
 					
@@ -301,7 +304,7 @@ public class LsmwProjectRelease {
 						
 						chrome.findElement(By.xpath("//*[@id='SESSION_QUERY_CONTINUE_BUTTON-txt']/span")).click();
 					
-						Thread.sleep(4000);
+						Thread.sleep(20000);
 					}
 				}
 				catch(Exception exc)
@@ -315,13 +318,14 @@ public class LsmwProjectRelease {
 					System.out.println("***********Switched Frame ITSFRAME1*********");
 					Thread.sleep(6000);
 					
-					if (chrome.findElement(By.xpath("//*[@id='M0:D:10::okcd']")).getSize()!=null) {
+					if (chrome.findElement(By.xpath("//*[@id='ToolbarOkCode']")).getSize()!=null) {
 						
-					}
-					chrome.findElement(By.xpath("//*[@id='M0:D:10::okcd']")).sendKeys(ConstantForSapLogon.ConstantForSap.LSMW_CJ20N.getValue());
+					
+					chrome.findElement(By.xpath("//*[@id='ToolbarOkCode']")).sendKeys(ConstantForSapLogon.ConstantForSap.LSMW_CJ20N.getValue());
 					Thread.sleep(2000);
+					}
 					// getDriver().findElement(By.xpath("//*[@name='ToolbarOkCode']")).sendKeys(Keys.);
-					chrome.findElement(By.xpath("//*[@id='M0:D:10::okcd']")).sendKeys(Keys.ENTER);
+					chrome.findElement(By.xpath("//*[@id='ToolbarOkCode']")).sendKeys(Keys.ENTER);
 					Thread.sleep(7000);
 					if(chrome.findElement(By.xpath(ConstantForSapLogon.ConstantForSap.SAP_WEB_OPEN_ICON.getValue())).getSize()!=null)
 					{

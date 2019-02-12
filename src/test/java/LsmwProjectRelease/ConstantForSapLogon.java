@@ -22,6 +22,9 @@ public class ConstantForSapLogon {
 		LSMW_PASSWORD_QRZ("Kolkata@2020"),
 		LSMW_EDIT("Edit"),
 		LSMW_TCODE("/nlsmw"),
+		LSMW_PROJECT_UPLOAD("modification"),
+		LSMW_SUBPROJECT_UPLOAD("static data"),
+		LSMW_OBJECT_UPLOAD("projects 2012"),
 		LSMW_PROJECT_LSMW("Z_FI_PROJ_ST"),
 		LSMW_PROJECT_AUC_LSMW("Z_FI_AUC_MIGR"),
 		LSMW_SUBPROJECT_AUC_LSMW("Z_FI_AUC_MIGR"),
@@ -52,7 +55,13 @@ public class ConstantForSapLogon {
 		LSMW_SUBPROJECT("CP01"),
 		LSMW_OBJECT("2018"),
 		LSMW_DISPLAY_DOCUMENT_HEADER("Display Document Header"),
-		LSMW_USERID_FRZ("Reg_TestFRZ"),
+		/*LSMW_USERID_FRZ_WINIUM("paulsu04"),
+		LSMW_PASSWORD_FRZ_WINIUM("Feb@2019"),*/
+		LSMW_USERID_FRZ_WINIUM("reg_testfrz"),
+		LSMW_PASSWORD_FRZ_WINIUM("London@1"),
+		/*LSMW_USERID_FRZ("samank02"),
+		LSMW_PASSWORD_FRZ("Password@1234"),*/
+		LSMW_USERID_FRZ("reg_testfrz"),
 		LSMW_PASSWORD_FRZ("London@1"),
 		LSMW_DISPLAYCHANGE("Display <-> Change"),
 		LSMW_CONTINUE("Continue"),
@@ -74,15 +83,20 @@ public class ConstantForSapLogon {
 		LSMW_PRINTPREVIEW("Print Preview"),
 		LSMW_USERMENU("User Menu"),
 		LSMW_CJ20N("/ncj20n"),
+		LSMW_ZPUR001("/nZPUR001"),
 		LSMW_CJ20N_PROJECTNAME("CP01"+new SimpleDateFormat("HHmmss").format(new Date())),
 		LSMW_CJ20N_INVESTMENT_PROFILENAME("BQ77"),
+		LSMW_CJ20N_CLOSE("//span[@id='M1:37::btn[12]-r']"),
 		//LSMW_CJ20N_PROJECT_STATUS_AREA("//*[contains(@className,'Afx:')"),
 		LSMW_CJ20N_PROJECT_STATUS_AREA("100"),
 		SAP_FRZ_URL("https://rqaecc.b-and-q.com/nwbc_login/"),
+		SAP_FRZ_LOGON("//*[@id='LOGON_BUTTON']"),
+		SAP_FRZ_LOGON_MULTIPLELOGON_RADIO("//span[@id='delete-session-cb-txt']"),
+		SAP_FRZ_LOGON_CONTINUE("//*[@id='SESSION_QUERY_CONTINUE_BUTTON']"),
 		SAP_WEB_OPEN_ICON("//*[@title='Open ']"),
 		LSMW_PROJECT_DOES_NOT_EXISTS("Project CP01ABCDZYX123 does not exist"),
 		LSMW_FICO_JOURNAL("/nzfi004"),
-		LSMW_PROJECT("modification"),
+		//LSMW_PROJECT("modification"),
 		F110_TCODE("/nf110"),
 		F110_SCHEDULE("Schedule"),
 		NBANK_VENDOR("//input[@id='M0:U:1:2B264::0:16']"),
@@ -150,6 +164,15 @@ public class ConstantForSapLogon {
 	    INPUT_COMPANY_CODE_OK_TAB("//div[@id='M1:D:13::btn[0]']"),
 	    
 	    FRAME_1("//iframe[starts-with(@id,'iFrameId_1546601646021')]"),
+	    CONDITION_TYPE("Z1AO"),
+	    CONDITION_TYPE_TCODE("/nMEK3"),
+	    TAC_PUR_ORGANIZATION("KP00"),
+	    TAC_INCOTERMS("FOB"),
+	    TAC_INCO2("CNNGB1"),
+	    TAC_SITE("DK01"),
+	    LSMW_PROJECT_LSMW_VAT("ZVAT"),
+		LSMW_SUBPROJECT_LSMW_VAT("ZVAT-CAPL"),
+		LSMW_OBJECT_LSMW_VAT("ZVAT-CP01"),
 	  
 	  
 		
@@ -223,8 +246,8 @@ public class ConstantForSapLogon {
 			else if(env.equals("FRZ"))
 			{
 				map.put("LSMW_SERVER", ConstantForSap.LSMW_FRZ.getValue());
-				map.put("LSMW_USERID", ConstantForSap.LSMW_USERID_FRZ.getValue());
-				map.put("LSMW_PASSWORD", ConstantForSap.LSMW_PASSWORD_FRZ.getValue());
+				map.put("LSMW_USERID", ConstantForSap.LSMW_USERID_FRZ_WINIUM.getValue());
+				map.put("LSMW_PASSWORD", ConstantForSap.LSMW_PASSWORD_FRZ_WINIUM.getValue());
 
 			}
 
@@ -234,9 +257,94 @@ public class ConstantForSapLogon {
 		return map;
 
 	}
+	public String invoiceSetter(String invoiceType)
+	{
+		
+	 Map<String,String> map=new HashMap<String,String>();
+	
+	 map.put("customer",ConstantForSapLogon.ConstantForSap.INVOICE_DOCUMENT_CUSTOMER.getValue());
+		map.put("vendor",ConstantForSapLogon.ConstantForSap.INVOICE_DOCUMENT_VENDOR.getValue());
+	return map.get(invoiceType);
+	}
+	public String conditionSetter(String key)
+	{
+		Map<String,String> map=new HashMap<String,String>();
+		map.put("Z1AO", "1");
+		map.put("Z1CD", "3");
+		map.put("Z1CM", "5");
+		map.put("Z1CS", "6");
+		map.put("Z1DH", "9");
+		map.put("Z1IN", "15");
+		map.put("Z1OP", "22");
+		map.put("Z1RE", "27");
+		map.put("Z1RF", "28");
+		map.put("Z1TH", "32");
+		map.put("Z1SF", "30");
+		return map.get(key);
+		
+	}
+	public String conditionTableSetter(String key)
+	{
+		Map<String,String> map=new HashMap<String,String>();
+		map.put("Z1AO", "3");
+		map.put("Z1CD", "1");
+		map.put("Z1CM", "3");
+		map.put("Z1CS", "1");
+		map.put("Z1DH", "1");
+		map.put("Z1IN", "2");
+		map.put("Z1OP", "0");
+		map.put("Z1RE", "1");
+		map.put("Z1RF", "1");
+		map.put("Z1TH", "1");
+		map.put("Z1SF", "1");
+		return map.get(key);
+		
+	}
 	
 	
+	public String selectFile(String key)
+	{
+		Map<String,String> map=new HashMap<String,String>();
+		map.put("Z1AO", "Reference_Condition.txt");
+		map.put("Z1CD", "Reference_ConditionZ1CD.txt");
+		map.put("Z1CM", "Reference_Condition.txt");
+		map.put("Z1CS", "Reference_ConditionZ1CS.txt");
+		map.put("Z1DH", "Reference_Condition.txt");
+		map.put("Z1IN", "Reference_ConditionZ1IN.txt");
+		map.put("Z1OP", "Reference_ConditionZ1IN.txt");
+		map.put("Z1RE", "Reference_ConditionZ1RE.txt");
+		map.put("Z1RF", "Reference_Condition.txt");
+		map.put("Z1TH", "Reference_Condition.txt");
+		map.put("Z1SF", "Reference_Condition.txt");
+		return map.get(key);
+		
+	}
+	public String processCondition(String key)
+	{
+		Map<String,String> map=new HashMap<String,String>();
+		try{
+			
+		
+				
+		map.put("Z1AO", "processConditiontype");
+		map.put("Z1CM", "processConditiontype");
+		//map.put("Z1CS", "Reference_ConditionZ1CS.txt");
+		map.put("Z1DH", "processConditiontype");
+		map.put("Z1IN", "processConditiontypeZ1IN");
+		map.put("Z1OP", "processConditiontypeZ1IN");
+		//map.put("Z1RE", "Reference_ConditionZ1RE.txt");
+		map.put("Z1RF", "processConditiontype");
+		map.put("Z1TH", "processConditiontype");
+		map.put("Z1SF", "processConditiontype");
+	}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		return map.get(key);
 	
-
+	
+	}
+	
 
 }

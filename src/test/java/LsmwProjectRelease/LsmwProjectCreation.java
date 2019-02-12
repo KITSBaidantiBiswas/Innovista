@@ -50,8 +50,8 @@ public class LsmwProjectCreation {
 		Runtime rtt=Runtime.getRuntime();
 		try {
 
-			rtt.exec(System.getProperty("user.dir")+"\\Winium.Desktop.Driver.exe");
-			//"C:\\downloads\\Winium.Desktop.Driver\\Winium.Desktop.Driver.exe");
+			//rtt.exec(System.getProperty("user.dir")+"\\Winium.Desktop.Driver.exe");
+			rtt.exec("C:\\downloads\\Winium.Desktop.Driver.exe");
 
 		} catch (IOException e3) {
 			// TODO Auto-generated catch block
@@ -180,13 +180,13 @@ public class LsmwProjectCreation {
 
 					Thread.sleep(6000);
 					
-					demo.simulateClipBoard(ConstantForSapLogon.ConstantForSap.LSMW_PROJECT.getValue(),robot);
+					demo.simulateClipBoard(ConstantForSapLogon.ConstantForSap.LSMW_PROJECT_UPLOAD.getValue(),robot);
 					Thread.sleep(2000);
 					robot.keyPress(KeyEvent.VK_TAB);
-					demo.simulateClipBoard(ConstantForSapLogon.ConstantForSap.LSMW_SUBPROJECT.getValue(),robot);
+					demo.simulateClipBoard(ConstantForSapLogon.ConstantForSap.LSMW_SUBPROJECT_UPLOAD.getValue(),robot);
 					Thread.sleep(2000);
 					robot.keyPress(KeyEvent.VK_TAB);
-					demo.simulateClipBoard(ConstantForSapLogon.ConstantForSap.LSMW_OBJECT.getValue(),robot);
+					demo.simulateClipBoard(ConstantForSapLogon.ConstantForSap.LSMW_OBJECT_UPLOAD.getValue(),robot);
 					Thread.sleep(2000);
 					robot.keyPress(KeyEvent.VK_ENTER);
 					Thread.sleep(2000);

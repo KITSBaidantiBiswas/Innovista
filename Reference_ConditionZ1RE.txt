@@ -1,0 +1,4 @@
+PurchOrg  Incoterms  Inco2  Status  Amt  Unit UOM Validfrom Validto
+KP00	FOB	CNNGB1		5	GBP	$x	31.12.9999
+PurchOrg  Vendor  Subrange  Article  Status  Amt  Unit  Validfrom Validto
+KP00	506393				5	GBP	$x	31.12.9999
